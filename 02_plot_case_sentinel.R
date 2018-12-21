@@ -24,7 +24,7 @@ for (pref in prefs) {
 
 # plot weekly number of influenza cases per sentinel ts for each prefecture in 
 # one page using facet, ordered by latitude
-pref.attr <- read.csv("output/Japan_Prefecture.csv", stringsAsFactors = FALSE)
+pref.attr <- read.csv("data/Japan_Prefecture.csv", stringsAsFactors = FALSE)
 
 pref.attr <- pref.attr %>%
   arrange(-Latitude)

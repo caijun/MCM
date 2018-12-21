@@ -403,7 +403,7 @@ p5 <- ggplot() +
         panel.border = element_rect(color = "black", size = 1, fill = NA), 
         plot.title = element_text(hjust = 0.5, face = "bold"))
 p5 <- ggdraw(p5) + draw_label(TeX(glue("$\\mathit{{y}}$ = {format(round(b1, 2), nsmall = 2)} - {abs(round(b2, 2))}$\\mathit{{x}}$")), 0.65, 0.3, size = 12) + 
-  draw_label(TeX(glue("$R^2$ < 0.01, $$\\mathit{{p}}$ = {round(pval, 2)}")), 
+  draw_label(TeX(glue("$R^2$ < 0.01, $$\\mathit{{p}}$ = {format(round(pval, 2), nsmall = 2)}")), 
              0.65, 0.24, size = 12)
 
 pd <- data.frame(epi.params.threshold[c(1:2)], 
