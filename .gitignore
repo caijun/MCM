@@ -34,3 +34,12 @@ vignettes/*.pdf
 
 # Shiny token, see https://shiny.rstudio.com/articles/shinyapps.html
 rsconnect/
+.Rproj.user
+
+# Added by JC
+# OS generated files
+.DS_Store
+
+# folders that can not be shared
+/output/
+/figs/
