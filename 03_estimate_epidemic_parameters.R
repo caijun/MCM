@@ -3,7 +3,6 @@ rm(list = ls())
 source("R/threshold.R")
 source("R/segment.R")
 source("R/curvature.R")
-source("R/mem.R")
 source("R/helper.R")
 
 load("output/Japan_Flu_Sentinel.rda")
@@ -11,13 +10,17 @@ load("output/Japan_Flu_Sentinel.rda")
 # regard Japan as a prefecture
 pref.flu1 <- rbind(nation.flu1, pref.flu1)
 
-library(plyr)
 library(tidyverse)
 
 # Shoji.etal-TohokuJExpMed-2011
-# An influenza epidemic at each prefecture was defined as occurring when >=1.0 influenza cases per sentinel were reported for three consecutive weeks. The first week of the three consecutive weeks is defined as the week of epidemic onset. Epidemic parameters estimated by this method are used as the gold standard.
+# An influenza epidemic at each prefecture was defined as occurring when >=1.0 
+# influenza cases per sentinel were reported for three consecutive weeks. The 
+# first week of the three consecutive weeks is defined as the week of epidemic 
+# onset. Epidemic parameters estimated by this method are used as the gold 
+# standard.
 
-# first, need to label winter influenza seasons, running from week 35 to the upcoming week 34
+# first, need to label winter influenza seasons, running from week 35 to the 
+# upcoming week 34
 library(ISOweek)
 year.range <- range(pref.flu1$year)
 year <- seq(year.range[1] - 1, year.range[2] + 1, 1)
@@ -51,10 +54,10 @@ segment.ec(ec)
 # better results without smoothing
 curvature.ec(ec, smoothing = FALSE)
 curvature.ec(ec, smoothing = TRUE)
-mem.ec(ec, delta = 0.0068)
 
 # following analyses are on week unit
 # use threshold-based algorithm
+library(plyr)
 epi.params.threshold <- ddply(pref.flu1, .(Prefecture, season), function(df) {
   interp.ec(data.frame(t = df$weeknum_of_season, y = df$flu.sentinel))
 })
@@ -78,7 +81,8 @@ epi.params.segment <- epi.params.segment %>%
 
 # use curvature-based algorithm
 epi.params.curvature <- ddply(pref.flu1, .(Prefecture, season), function(df) {
-  curvature.ec(data.frame(t = df$weeknum_of_season, y = df$flu.sentinel), smoothing = FALSE)
+  curvature.ec(data.frame(t = df$weeknum_of_season, y = df$flu.sentinel), 
+               smoothing = FALSE)
 })
 
 epi.params.curvature <- epi.params.curvature %>% 
@@ -87,16 +91,5 @@ epi.params.curvature <- epi.params.curvature %>%
          epi.end.date = pre.season.ending + epi.end * 7, 
          epi.peak.date = pre.season.ending + epi.peak * 7)
 
-# use mem
-epi.params.mem <- ddply(pref.flu1, .(Prefecture, season), function(df) {
-  mem.ec(data.frame(t = df$weeknum_of_season, y = df$flu.sentinel))
-})
-
-epi.params.mem <- epi.params.mem %>% 
-  mutate(pre.season.ending = pre.season.ending(season)) %>% 
-  mutate(epi.start.date = pre.season.ending + epi.start * 7, 
-         epi.end.date = pre.season.ending + epi.end * 7, 
-         epi.peak.date = pre.season.ending + epi.peak * 7)
-
-save(epi.params.threshold, epi.params.segment, epi.params.curvature, epi.params.mem, 
+save(epi.params.threshold, epi.params.segment, epi.params.curvature, 
      pref.flu1, file = "output/Japan_Pref_Epi_Params.rda")

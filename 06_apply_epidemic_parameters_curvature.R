@@ -44,7 +44,7 @@ cor.test(mean.epi.params$mean.epi.start.num, mean.epi.params$mean.epi.end.num,
 # write prefecture-specific mean(sd) of epidemic onset intensity and epidemic 
 # end intensity into csv
 # order prefecture by increasing id
-pref.attr <- read.csv("output/Japan_Prefecture.csv", stringsAsFactors = FALSE)
+pref.attr <- read.csv("data/Japan_Prefecture.csv", stringsAsFactors = FALSE)
 res <- mean.epi.params %>% 
   select(Prefecture, mean.epi.start.num, sd.epi.start.num, mean.epi.end.num, 
          sd.epi.end.num) %>% 
