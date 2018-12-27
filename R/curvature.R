@@ -3,10 +3,10 @@ source("R/curvature_np.R")
 # linearly extrapolate to pad epidemic curve at the front and rear
 pad.ec <- function(ec, pad = 2) {
   require(Hmisc)
-  front <- approxExtrap(x = ec$t[1:2], y = ec$y[1:2], xout = 1 - pad:1)
+  front <- approxExtrap(x = ec$t[1:2], y = ec$y[1:2], xout = ec$t[1] - pad:1)
   rear <- approxExtrap(x = ec$t[(nrow(ec) - 1):nrow(ec)], 
                        y = ec$y[(nrow(ec) - 1):nrow(ec)], 
-                       xout = nrow(ec) + 1:pad)
+                       xout = ec$t[nrow(ec)] + 1:pad)
   ec1 <- rbind(data.frame(t = front$x, y = front$y), 
                ec, data.frame(t = rear$x, y = rear$y))
   return(ec1)
