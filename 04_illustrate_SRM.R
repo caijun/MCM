@@ -4,8 +4,6 @@ source("R/segment.R")
 
 load("output/Japan_Pref_Epi_Params.rda")
 
-# The background influenza activity level is higher than the empirical epidemic 
-# threshold of 1.0 weekly influenza cases per sentinel
 pref <- "Okinawa"
 # pref <- "Tokyo"
 s <- "2012/2013"
@@ -66,6 +64,6 @@ p <- ggplot(data = ec, aes(t, y)) +
   theme_classic() + 
   theme(plot.title = element_text(hjust = 0.5, face = "bold"))
 
-pdf("figs/segment_ec_illustration.pdf", width = 6, height = 3)
+pdf("figs/SRM_illustration.pdf", width = 6, height = 3)
 print(p)
 dev.off()

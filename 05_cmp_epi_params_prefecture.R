@@ -6,17 +6,17 @@ load("output/Japan_Pref_Epi_Params.rda")
 library(tidyverse)
 library(glue)
 
-epi.params.threshold <- epi.params.threshold %>% 
+epi.params.etm <- epi.params.etm %>% 
   dplyr::filter(Prefecture != "Japan")
 
-epi.params.segment <- epi.params.segment %>% 
+epi.params.srm <- epi.params.srm %>% 
   dplyr::filter(Prefecture != "Japan")
 
-epi.params.curvature <- epi.params.curvature %>% 
+epi.params.mcm <- epi.params.mcm %>% 
   dplyr::filter(Prefecture != "Japan")
 
-# NA epidemic parameters estimated by threshold --------------------------------
-na.season.threshold <- epi.params.threshold %>% 
+# NA epidemic parameters estimated by ETM --------------------------------
+na.season.etm <- epi.params.etm %>% 
   group_by(season) %>% 
   dplyr::summarise(epi.start = sum(is.na(epi.start)), 
                    epi.end = sum(is.na(epi.end)), 
@@ -25,11 +25,11 @@ na.season.threshold <- epi.params.threshold %>%
                    epi.end.num = sum(is.na(epi.end.num))
   )
 
-epi.params.threshold %>% 
+epi.params.etm %>% 
   dplyr::filter(is.na(epi.duration))
 
-# NA epidemic parameters estimated by segment ----------------------------------
-na.season.segment <- epi.params.segment %>% 
+# NA epidemic parameters estimated by SRM ----------------------------------
+na.season.srm <- epi.params.srm %>% 
   group_by(season) %>% 
   dplyr::summarise(epi.start = sum(is.na(epi.start)), 
                    epi.end = sum(is.na(epi.end)), 
@@ -39,7 +39,7 @@ na.season.segment <- epi.params.segment %>%
   )
 
 # NA epidemic parameters estimated by MCM --------------------------------------
-na.season.curvature <- epi.params.curvature %>% 
+na.season.mcm <- epi.params.mcm %>% 
   group_by(season) %>% 
   dplyr::summarise(epi.start = sum(is.na(epi.start)), 
                    epi.end = sum(is.na(epi.end)), 
@@ -48,8 +48,8 @@ na.season.curvature <- epi.params.curvature %>%
                    epi.end.num = sum(is.na(epi.end.num))
   )
 
-# summarise of epidemic parameters estimated by threshold ----------------------
-summary.season.threshold <- epi.params.threshold %>% 
+# summarise of epidemic parameters estimated by ETM ----------------------
+summary.season.etm <- epi.params.etm %>% 
   group_by(season) %>% 
   dplyr::summarise(mean.epi.start = round(mean(epi.start, na.rm = TRUE), 1), 
                    sd.epi.start = round(sd(epi.start, na.rm = TRUE), 1), 
@@ -64,10 +64,10 @@ summary.season.threshold <- epi.params.threshold %>%
                    mean.epi.duration = round(mean(epi.duration, na.rm = TRUE), 1), 
                    sd.epi.duration = round(as.numeric(sd(epi.duration, na.rm = TRUE)), 1)
   )
-write.csv(summary.season.threshold, file = "output/summary_season_threshold.csv", 
+write.csv(summary.season.etm, file = "output/summary_season_ETM.csv", 
           quote = F, row.names = F)
 
-summary.threshold <- epi.params.threshold %>% 
+summary.etm <- epi.params.etm %>% 
   dplyr::summarise(mean.epi.start = round(mean(epi.start, na.rm = TRUE), 1), 
                    sd.epi.start = round(sd(epi.start, na.rm = TRUE), 1), 
                    max.epi.start = round(max(epi.start, na.rm = TRUE), 1), 
@@ -82,8 +82,8 @@ summary.threshold <- epi.params.threshold %>%
                    sd.epi.duration = round(as.numeric(sd(epi.duration, na.rm = TRUE)), 1)
   )
 
-# summarise of epidemic parameters estimated by segment ------------------------
-summary.season.segment <- epi.params.segment %>% 
+# summarise of epidemic parameters estimated by SRM ------------------------
+summary.season.srm <- epi.params.srm %>% 
   group_by(season) %>% 
   dplyr::summarise(mean.epi.start = round(mean(epi.start, na.rm = TRUE), 1), 
                    sd.epi.start = round(sd(epi.start, na.rm = TRUE), 1), 
@@ -98,10 +98,10 @@ summary.season.segment <- epi.params.segment %>%
                    mean.epi.duration = round(mean(epi.duration, na.rm = TRUE), 1), 
                    sd.epi.duration = round(as.numeric(sd(epi.duration, na.rm = TRUE)), 1)
   )
-write.csv(summary.season.segment, file = "output/summary_season_segment.csv", 
+write.csv(summary.season.srm, file = "output/summary_season_SRM.csv", 
           quote = F, row.names = F)
 
-summary.segment <- epi.params.segment %>% 
+summary.srm <- epi.params.srm %>% 
   dplyr::summarise(mean.epi.start = round(mean(epi.start, na.rm = TRUE), 1), 
                    sd.epi.start = round(sd(epi.start, na.rm = TRUE), 1), 
                    max.epi.start = round(max(epi.start, na.rm = TRUE), 1), 
@@ -117,7 +117,7 @@ summary.segment <- epi.params.segment %>%
   )
 
 # summarise of epidemic parameters estimated by MCM ----------------------------
-summary.season.curvature <- epi.params.curvature %>% 
+summary.season.mcm <- epi.params.mcm %>% 
   group_by(season) %>% 
   dplyr::summarise(mean.epi.start = round(mean(epi.start, na.rm = TRUE), 1), 
                    sd.epi.start = round(sd(epi.start, na.rm = TRUE), 1), 
@@ -132,10 +132,10 @@ summary.season.curvature <- epi.params.curvature %>%
                    mean.epi.duration = round(mean(epi.duration, na.rm = TRUE), 1), 
                    sd.epi.duration = round(as.numeric(sd(epi.duration, na.rm = TRUE)), 1)
   )
-write.csv(summary.season.curvature, file = "output/summary_season_curvature.csv", 
+write.csv(summary.season.mcm, file = "output/summary_season_MCM.csv", 
           quote = F, row.names = F)
 
-summary.curvature <- epi.params.curvature %>% 
+summary.mcm <- epi.params.mcm %>% 
   dplyr::summarise(mean.epi.start = round(mean(epi.start, na.rm = TRUE), 1), 
                    sd.epi.start = round(sd(epi.start, na.rm = TRUE), 1), 
                    max.epi.start = round(max(epi.start, na.rm = TRUE), 1), 
@@ -151,7 +151,7 @@ summary.curvature <- epi.params.curvature %>%
   )
 
 # summarise of epidemic parameters estimated by MCM ----------------------------
-IQR.season.curvature <- epi.params.curvature %>% 
+IQR.season.mcm <- epi.params.mcm %>% 
   group_by(season) %>% 
   dplyr::summarise(mean.epi.start.num = round(mean(epi.start.num, na.rm = TRUE), 2), 
                    IQR.epi.start.num = round(IQR(epi.start.num, na.rm = TRUE), 2), 
@@ -161,20 +161,20 @@ IQR.season.curvature <- epi.params.curvature %>%
 
 
 # boxplot of epidemic parameters -----------------------------------------------
-epi.params.threshold1 <- epi.params.threshold %>% 
+epi.params.etm1 <- epi.params.etm %>% 
   select(Prefecture:epi.duration.num) %>% 
   mutate(method = "ETM")
 
-epi.params.segment1 <- epi.params.segment %>% 
+epi.params.srm1 <- epi.params.srm %>% 
   select(Prefecture:epi.duration.num) %>% 
   mutate(method = "SRM")
 
-epi.params.curvature1 <- epi.params.curvature %>% 
+epi.params.mcm1 <- epi.params.mcm %>% 
   select(Prefecture:epi.duration.num) %>% 
   mutate(method = "MCM")
 
-epi.params <- rbind(epi.params.threshold1, epi.params.segment1, 
-                    epi.params.curvature1) %>% 
+epi.params <- rbind(epi.params.etm1, epi.params.srm1, 
+                    epi.params.mcm1) %>% 
   mutate(method = factor(method, levels = c("ETM", "MCM", "SRM"))) %>% 
   mutate(season = gsub("20", "", season))
 
@@ -227,7 +227,7 @@ prow2
 # have the same legend, so we can arbitrarily pick one.)
 legend <- get_legend(p1)
 
-pdf("figs/compare_epi_params_boxplot.pdf", width = 9, height = 6)
+pdf("figs/cmp_epi_params_boxplot.pdf", width = 9, height = 6)
 p <- plot_grid(prow1, prow2, align = "hv", nrow = 2)
 ggdraw() + 
   draw_plot(p) + 
@@ -237,10 +237,10 @@ dev.off()
 
 library(latex2exp)
 # 1:1 plot of epidemic onset
-pd <- data.frame(epi.params.threshold[c(1:2)], 
-                 threshold = epi.params.threshold$epi.start, 
-                 segment = epi.params.segment$epi.start)
-lmfit <- lm(threshold ~ segment, data = pd)
+pd <- data.frame(epi.params.etm[c(1:2)], 
+                 etm = epi.params.etm$epi.start, 
+                 srm = epi.params.srm$epi.start)
+lmfit <- lm(etm ~ srm, data = pd)
 summary(lmfit)
 coef(lmfit)
 b1 <- coef(lmfit)[1]
@@ -248,15 +248,15 @@ b2 <- coef(lmfit)[2]
 (r2 <- summary(lmfit)$r.squared)
 (pval <- anova(lmfit)$'Pr(>F)'[1])
 
-ss <- subset(epi.params.threshold, is.na(epi.start))
-cor.test(epi.params.segment$epi.start, epi.params.threshold$epi.start, 
+ss <- subset(epi.params.etm, is.na(epi.start))
+cor.test(epi.params.srm$epi.start, epi.params.etm$epi.start, 
          use = "complete.obs")
 
 p1 <- ggplot() + 
   geom_abline(intercept = 0, slope = 1, color = "red", linetype = "dashed") + 
-  geom_smooth(data = pd, aes(x = segment, y = threshold), method = "lm", 
+  geom_smooth(data = pd, aes(x = srm, y = etm), method = "lm", 
               se = FALSE) + 
-  geom_point(data = pd, aes(x = segment, y = threshold)) + 
+  geom_point(data = pd, aes(x = srm, y = etm)) + 
   scale_x_continuous(expand = c(0, 0), limits = c(0, 30), 
                      breaks = seq(0, 30, by = 5)) + 
   scale_y_continuous(expand = c(0, 0), limits = c(0, 30), 
@@ -272,10 +272,10 @@ p1 <- ggdraw(p1) + draw_label(TeX(glue("$\\mathit{{y}}$ = {round(b1, 2)} + {form
              0.45, 0.74, size = 12)
 
 
-pd <- data.frame(epi.params.threshold[c(1:2)], 
-                 threshold = epi.params.threshold$epi.start, 
-                 curvature = epi.params.curvature$epi.start)
-lmfit <- lm(threshold ~ curvature, data = pd)
+pd <- data.frame(epi.params.etm[c(1:2)], 
+                 etm = epi.params.etm$epi.start, 
+                 mcm = epi.params.mcm$epi.start)
+lmfit <- lm(etm ~ mcm, data = pd)
 summary(lmfit)
 coef(lmfit)
 b1 <- coef(lmfit)[1]
@@ -283,14 +283,14 @@ b2 <- coef(lmfit)[2]
 (r2 <- summary(lmfit)$r.squared)
 (pval <- anova(lmfit)$'Pr(>F)'[1])
 
-cor.test(epi.params.curvature$epi.start, epi.params.threshold$epi.start, 
+cor.test(epi.params.mcm$epi.start, epi.params.etm$epi.start, 
          use = "complete.obs")
 
 p2 <- ggplot() + 
   geom_abline(intercept = 0, slope = 1, color = "red", linetype = "dashed") + 
-  geom_smooth(data = pd, aes(x = curvature, y = threshold), method = "lm", 
+  geom_smooth(data = pd, aes(x = mcm, y = etm), method = "lm", 
               se = FALSE) + 
-  geom_point(data = pd, aes(x = curvature, y = threshold)) + 
+  geom_point(data = pd, aes(x = mcm, y = etm)) + 
   scale_x_continuous(expand = c(0, 0), limits = c(0, 30), 
                      breaks = seq(0, 30, by = 5)) + 
   scale_y_continuous(expand = c(0, 0), limits = c(0, 30), 
@@ -306,10 +306,10 @@ p2 <- ggdraw(p2) + draw_label(TeX(glue("$\\mathit{{y}}$ = {round(b1, 2)} + {roun
              0.45, 0.74, size = 12)
 
 # 1:1 plot of epidemic end
-pd <- data.frame(epi.params.threshold[c(1:2)], 
-                 threshold = epi.params.threshold$epi.end, 
-                 segment = epi.params.segment$epi.end)
-lmfit <- lm(threshold ~ segment, data = pd)
+pd <- data.frame(epi.params.etm[c(1:2)], 
+                 etm = epi.params.etm$epi.end, 
+                 srm = epi.params.srm$epi.end)
+lmfit <- lm(etm ~ srm, data = pd)
 summary(lmfit)
 coef(lmfit)
 b1 <- coef(lmfit)[1]
@@ -317,14 +317,14 @@ b2 <- coef(lmfit)[2]
 (r2 <- summary(lmfit)$r.squared)
 (pval <- anova(lmfit)$'Pr(>F)'[1])
 
-cor.test(epi.params.segment$epi.end, epi.params.threshold$epi.end, 
+cor.test(epi.params.srm$epi.end, epi.params.etm$epi.end, 
          use = "complete.obs")
 
 p3 <- ggplot() + 
   geom_abline(intercept = 0, slope = 1, color = "red", linetype = "dashed") + 
-  geom_smooth(data = pd, aes(x = segment, y = threshold), method = "lm", 
+  geom_smooth(data = pd, aes(x = srm, y = etm), method = "lm", 
               se = FALSE) + 
-  geom_point(data = pd, aes(x = segment, y = threshold)) + 
+  geom_point(data = pd, aes(x = srm, y = etm)) + 
   scale_x_continuous(expand = c(0, 0), limits = c(25, 55),
                      breaks = seq(25, 55, by = 5)) +
   scale_y_continuous(expand = c(0, 0), limits = c(25, 55),
@@ -339,10 +339,10 @@ p3 <- ggdraw(p3) + draw_label(TeX(glue("$\\mathit{{y}}$ = {round(b1, 2)} + {roun
   draw_label(TeX(glue("$R^2$ = {format(round(r2, 2), nsmall = 2)}, $$\\mathit{{p}}$ < 0.001")), 
              0.65, 0.24, size = 12)
 
-pd <- data.frame(epi.params.threshold[c(1:2)], 
-                 threshold = epi.params.threshold$epi.end, 
-                 curvature = epi.params.curvature$epi.end)
-lmfit <- lm(threshold ~ curvature, data = pd)
+pd <- data.frame(epi.params.etm[c(1:2)], 
+                 etm = epi.params.etm$epi.end, 
+                 mcm = epi.params.mcm$epi.end)
+lmfit <- lm(etm ~ mcm, data = pd)
 summary(lmfit)
 coef(lmfit)
 b1 <- coef(lmfit)[1]
@@ -350,14 +350,14 @@ b2 <- coef(lmfit)[2]
 (r2 <- summary(lmfit)$r.squared)
 (pval <- anova(lmfit)$'Pr(>F)'[1])
 
-cor.test(epi.params.curvature$epi.end, epi.params.threshold$epi.end, 
+cor.test(epi.params.mcm$epi.end, epi.params.etm$epi.end, 
          use = "complete.obs")
 
 p4 <- ggplot() + 
   geom_abline(intercept = 0, slope = 1, color = "red", linetype = "dashed") + 
-  geom_smooth(data = pd, aes(x = curvature, y = threshold), method = "lm", 
+  geom_smooth(data = pd, aes(x = mcm, y = etm), method = "lm", 
               se = FALSE) + 
-  geom_point(data = pd, aes(x = curvature, y = threshold)) + 
+  geom_point(data = pd, aes(x = mcm, y = etm)) + 
   scale_x_continuous(expand = c(0, 0), limits = c(25, 55), 
                      breaks = seq(25, 55, by = 5)) + 
   scale_y_continuous(expand = c(0, 0), limits = c(25, 55), 
@@ -373,10 +373,10 @@ p4 <- ggdraw(p4) + draw_label(TeX(glue("$\\mathit{{y}}$ = {round(b1, 2)} + {roun
              0.65, 0.24, size = 12)
 
 # 1:1 plot of epidemic duration
-pd <- data.frame(epi.params.threshold[c(1:2)], 
-                 threshold = epi.params.threshold$epi.duration, 
-                 segment = epi.params.segment$epi.duration)
-lmfit <- lm(threshold ~ segment, data = pd)
+pd <- data.frame(epi.params.etm[c(1:2)], 
+                 etm = epi.params.etm$epi.duration, 
+                 srm = epi.params.srm$epi.duration)
+lmfit <- lm(etm ~ srm, data = pd)
 summary(lmfit)
 coef(lmfit)
 b1 <- coef(lmfit)[1]
@@ -384,14 +384,14 @@ b2 <- coef(lmfit)[2]
 (r2 <- summary(lmfit)$r.squared)
 (pval <- anova(lmfit)$'Pr(>F)'[1])
 
-cor.test(epi.params.segment$epi.duration, epi.params.threshold$epi.duration, 
+cor.test(epi.params.srm$epi.duration, epi.params.etm$epi.duration, 
          use = "complete.obs")
 
 p5 <- ggplot() + 
   geom_abline(intercept = 0, slope = 1, color = "red", linetype = "dashed") + 
-  geom_smooth(data = pd, aes(x = segment, y = threshold), method = "lm", 
+  geom_smooth(data = pd, aes(x = srm, y = etm), method = "lm", 
               se = FALSE) + 
-  geom_point(data = pd, aes(x = segment, y = threshold)) + 
+  geom_point(data = pd, aes(x = srm, y = etm)) + 
   scale_x_continuous(expand = c(0, 0), limits = c(5, 40),
                      breaks = seq(5, 40, by = 5)) +
   scale_y_continuous(expand = c(0, 0), limits = c(5, 40),
@@ -406,10 +406,10 @@ p5 <- ggdraw(p5) + draw_label(TeX(glue("$\\mathit{{y}}$ = {format(round(b1, 2), 
   draw_label(TeX(glue("$R^2$ < 0.01, $$\\mathit{{p}}$ = {format(round(pval, 2), nsmall = 2)}")), 
              0.65, 0.24, size = 12)
 
-pd <- data.frame(epi.params.threshold[c(1:2)], 
-                 threshold = epi.params.threshold$epi.duration, 
-                 curvature = epi.params.curvature$epi.duration)
-lmfit <- lm(threshold ~ curvature, data = pd)
+pd <- data.frame(epi.params.etm[c(1:2)], 
+                 etm = epi.params.etm$epi.duration, 
+                 mcm = epi.params.mcm$epi.duration)
+lmfit <- lm(etm ~ mcm, data = pd)
 summary(lmfit)
 coef(lmfit)
 b1 <- coef(lmfit)[1]
@@ -417,14 +417,14 @@ b2 <- coef(lmfit)[2]
 (r2 <- summary(lmfit)$r.squared)
 (pval <- anova(lmfit)$'Pr(>F)'[1])
 
-cor.test(epi.params.curvature$epi.duration, epi.params.threshold$epi.duration, 
+cor.test(epi.params.mcm$epi.duration, epi.params.etm$epi.duration, 
          use = "complete.obs")
 
 p6 <- ggplot() + 
   geom_abline(intercept = 0, slope = 1, color = "red", linetype = "dashed") + 
-  geom_smooth(data = pd, aes(x = curvature, y = threshold), method = "lm", 
+  geom_smooth(data = pd, aes(x = mcm, y = etm), method = "lm", 
               se = FALSE) + 
-  geom_point(data = pd, aes(x = curvature, y = threshold)) + 
+  geom_point(data = pd, aes(x = mcm, y = etm)) + 
   scale_x_continuous(expand = c(0, 0), limits = c(5, 40), 
                      breaks = seq(5, 40, by = 5)) + 
   scale_y_continuous(expand = c(0, 0), limits = c(5, 40), 
@@ -440,7 +440,7 @@ p6 <- ggdraw(p6) + draw_label(TeX(glue("$\\mathit{{y}}$ = {round(b1, 2)} + {form
              0.65, 0.24, size = 12)
 
 
-pdf("figs/compare_epi_params_timings_regression.pdf", width = 9, height = 6)
+pdf("figs/cmp_epi_params_timings_regression.pdf", width = 9, height = 6)
 p12 <- plot_grid(p1, p2, align = "hv", ncol = 1)
 p34 <- plot_grid(p3, p4, align = "hv", ncol = 1)
 p56 <- plot_grid(p5, p6, align = "hv", ncol = 1)

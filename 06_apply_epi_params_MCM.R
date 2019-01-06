@@ -4,13 +4,12 @@ load("output/Japan_Pref_Epi_Params.rda")
 
 library(tidyverse)
 
-# Now we have the conclusion that MCM (Maxmium Curvature Method) outperforms 
-# broken-stick method for estimating epidemic onset.
+# Now we have the conclusion that MCM outperforms SRM for estimating epidemic onset.
 # Application of MCM
 # Prefecture-specific epidemic thresholds: epidemic onset, epidemic end and 
 # corresponding number of influenza cases per sentinel averaged across 6 seasons 
 # for each prefecture
-epi.params <- epi.params.curvature %>% 
+epi.params <- epi.params.mcm %>% 
   dplyr::filter(Prefecture != "Japan")
 
 mean.epi.params <- epi.params %>% 

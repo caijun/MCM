@@ -19,6 +19,7 @@ cw.start <- dat[idx.start:(idx.start + 2), ]
 idx.end <- floor(epi.params$epi.end)
 cw.end <- dat[idx.end:(idx.end - 2), ]
 
+library(glue)
 p <- ggplot(data = dat, aes(t, y)) + 
   geom_vline(xintercept = epi.params$epi.peak, color = "gray", linetype = "dashed") + 
   geom_vline(xintercept = epi.params$epi.start, color = "blue", linetype = "dashed") + 
@@ -36,6 +37,6 @@ p <- ggplot(data = dat, aes(t, y)) +
   theme_classic() + 
   theme(plot.title = element_text(hjust = 0.5, face = "bold"))
 
-pdf("figs/threshold_ec_illustration.pdf", width = 6, height = 3)
+pdf("figs/ETM_illustration.pdf", width = 6, height = 3)
 print(p)
 dev.off()

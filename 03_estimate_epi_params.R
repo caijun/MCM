@@ -43,8 +43,8 @@ pref.flu1 <- pref.flu1 %>%
 # x <- subset(pref.flu1, season == "2012/2013" & Prefecture == "Hiroshima")
 # x <- subset(pref.flu1, season == "2016/2017" & Prefecture == "Aichi")
 x <- subset(pref.flu1, season == "2013/2014" & Prefecture == "Akita")
-# epidemic onset number esitmated by using curvature-based method are very large
-# without setting the upper threshold of 5.0
+# epidemic onset number esitmated by using MCM are very large
+# without setting the upper threshold of 5.0 for certain prefectures
 # x <- subset(pref.flu1, season == "2016/2017" & Prefecture == "Hokkaido")
 # x <- subset(pref.flu1, season == "2016/2017" & Prefecture == "Iwate")
 # x <- subset(pref.flu1, season == "2016/2017" & Prefecture == "Okinawa")
@@ -56,40 +56,40 @@ curvature.ec(ec, smoothing = FALSE)
 curvature.ec(ec, smoothing = TRUE)
 
 # following analyses are on week unit
-# use threshold-based algorithm
+# use empirical threhsold method (ETM)
 library(plyr)
-epi.params.threshold <- ddply(pref.flu1, .(Prefecture, season), function(df) {
+epi.params.etm <- ddply(pref.flu1, .(Prefecture, season), function(df) {
   interp.ec(data.frame(t = df$weeknum_of_season, y = df$flu.sentinel))
 })
 
-epi.params.threshold <- epi.params.threshold %>% 
+epi.params.etm <- epi.params.etm %>% 
   mutate(pre.season.ending = pre.season.ending(season)) %>% 
   mutate(epi.start.date = pre.season.ending + epi.start * 7, 
          epi.end.date = pre.season.ending + epi.end * 7, 
          epi.peak.date = pre.season.ending + epi.peak * 7)
 
-# use segmented algorithm
-epi.params.segment <- ddply(pref.flu1, .(Prefecture, season), function(df) {
+# use segmented regression method (SRM)
+epi.params.srm <- ddply(pref.flu1, .(Prefecture, season), function(df) {
   segment.ec(data.frame(t = df$weeknum_of_season, y = df$flu.sentinel))
 })
 
-epi.params.segment <- epi.params.segment %>% 
+epi.params.srm <- epi.params.srm %>% 
   mutate(pre.season.ending = pre.season.ending(season)) %>% 
   mutate(epi.start.date = pre.season.ending + epi.start * 7, 
          epi.end.date = pre.season.ending + epi.end * 7, 
          epi.peak.date = pre.season.ending + epi.peak * 7)
 
-# use curvature-based algorithm
-epi.params.curvature <- ddply(pref.flu1, .(Prefecture, season), function(df) {
+# use maximum curvature method (MCM)
+epi.params.mcm <- ddply(pref.flu1, .(Prefecture, season), function(df) {
   curvature.ec(data.frame(t = df$weeknum_of_season, y = df$flu.sentinel), 
                smoothing = FALSE)
 })
 
-epi.params.curvature <- epi.params.curvature %>% 
+epi.params.mcm <- epi.params.mcm %>% 
   mutate(pre.season.ending = pre.season.ending(season)) %>% 
   mutate(epi.start.date = pre.season.ending + epi.start * 7, 
          epi.end.date = pre.season.ending + epi.end * 7, 
          epi.peak.date = pre.season.ending + epi.peak * 7)
 
-save(epi.params.threshold, epi.params.segment, epi.params.curvature, 
+save(epi.params.etm, epi.params.srm, epi.params.mcm, 
      pref.flu1, file = "output/Japan_Pref_Epi_Params.rda")

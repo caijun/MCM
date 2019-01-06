@@ -13,7 +13,7 @@ pad.ec <- function(ec, pad = 2) {
 }
 
 # calculate curvature at each observation point
-calc.curvature <- function(ec, n = 5, upper = 5.0) {
+calc.curvature <- function(ec, n = 5, h = 5.0) {
   pad <- (n - 1) / 2
   # linearly extrapolate to pad epidemic curve at the front and rear
   ec1 <- pad.ec(ec, pad)
@@ -34,7 +34,7 @@ calc.curvature <- function(ec, n = 5, upper = 5.0) {
   half1 <- res$theta[1:pk.idx]
   half2 <- res$theta[(pk.idx + 1):length(res$theta)]
   indicator <- c(I(half1 >= 0 & half1 <= 90), I(half2 >= 270 & half2 <= 360))
-  res$new.curvature <- res$curvature * indicator * (ec$y <= upper)
+  res$new.curvature <- res$curvature * indicator * (ec$y <= h)
   
   return(res)
 }
@@ -43,15 +43,15 @@ calc.curvature <- function(ec, n = 5, upper = 5.0) {
 # using curvature-based method
 #' @param ec the whole epidemic curve, expressed as time series of observations
 #' @param n number of points used for fittign circle
-#' @param upper we are pretty sure that exceeding the upper threshold, an epidemic has already been onset.
-#' @param smoothing logical indicator controling whether smoothing epidemic curve using Savitzky#' -Golay smoothing filters
-curvature.ec <- function(ec, n = 5, upper = 5.0, smoothing = FALSE) {
+#' @param h the upper threshold, exceeding which we are pretty sure that an epidemic has already been onset.
+#' @param smoothing logical indicator controling whether smoothing epidemic curve using Savitzky-Golay smoothing filters
+curvature.ec <- function(ec, n = 5, h = 5.0, smoothing = FALSE) {
   if (smoothing) {
     require(signal)
     sg <- sgolay(p = 1, n = 3, m = 0)
     ec$y <- filter(sg, ec$y)
   }
-  res <- calc.curvature(ec, n = n, upper = upper)
+  res <- calc.curvature(ec, n = n, h = h)
   
   pk.idx <- which.max(ec$y)
   epi.peak <- ec$t[pk.idx]

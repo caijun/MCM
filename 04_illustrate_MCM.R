@@ -163,7 +163,7 @@ print(p)
 dev.off()
 
 
-# curvature-based algorithm illustration plots
+# MCM illustration plots
 pd <- cbind(ec, res)
 p1 <- ggplot(data = pd, aes(t, y)) + 
   geom_vline(xintercept = epi.params$epi.peak, color = "gray", linetype = "dashed") + 
@@ -217,7 +217,7 @@ p4 <- ggplot(data = pd, aes(t, new.curvature)) +
   labs(x = "Week number", y = "Filtered curvature") + 
   theme_classic()
 
-pdf("figs/curvature_ec_illustration.pdf", width = 6, height = 6)
+pdf("figs/MCM_illustration.pdf", width = 6, height = 6)
 library(cowplot)
 p <- plot_grid(p1, p2, p3, p4, labels = c("(A)", "(B)", "(C)", "(D)"), align = "hv", ncol = 1, 
                label_x = 0.1, label_y = 1)
