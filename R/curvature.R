@@ -58,10 +58,10 @@ curvature.ec <- function(ec, n = 5, h = 5.0, smoothing = FALSE) {
   epi.peak.num <- ec$y[pk.idx]
   start.idx <- which.max(res$new.curvature[1:pk.idx])
   epi.start <- res$tp_x[start.idx]
-  epi.start.num <- res$tp_y[start.idx]
+  epi.start.num <- max(res$tp_y[start.idx], 0) # the observation should never be negative.
   end.idx <- pk.idx + which.max(res$new.curvature[(pk.idx + 1):length(res$new.curvature)])
   epi.end <- res$tp_x[end.idx]
-  epi.end.num <- res$tp_y[end.idx]
+  epi.end.num <- max(res$tp_y[end.idx], 0)
   epi.duration <- epi.end - epi.start + 1
   dur.idx <- ec$t >= epi.start & ec$t <= epi.end
   # mean intensity during epidemic duration

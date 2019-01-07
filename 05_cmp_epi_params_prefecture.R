@@ -64,8 +64,6 @@ summary.season.etm <- epi.params.etm %>%
                    mean.epi.duration = round(mean(epi.duration, na.rm = TRUE), 1), 
                    sd.epi.duration = round(as.numeric(sd(epi.duration, na.rm = TRUE)), 1)
   )
-write.csv(summary.season.etm, file = "output/summary_season_ETM.csv", 
-          quote = F, row.names = F)
 
 summary.etm <- epi.params.etm %>% 
   dplyr::summarise(mean.epi.start = round(mean(epi.start, na.rm = TRUE), 1), 
@@ -98,8 +96,6 @@ summary.season.srm <- epi.params.srm %>%
                    mean.epi.duration = round(mean(epi.duration, na.rm = TRUE), 1), 
                    sd.epi.duration = round(as.numeric(sd(epi.duration, na.rm = TRUE)), 1)
   )
-write.csv(summary.season.srm, file = "output/summary_season_SRM.csv", 
-          quote = F, row.names = F)
 
 summary.srm <- epi.params.srm %>% 
   dplyr::summarise(mean.epi.start = round(mean(epi.start, na.rm = TRUE), 1), 
@@ -132,8 +128,6 @@ summary.season.mcm <- epi.params.mcm %>%
                    mean.epi.duration = round(mean(epi.duration, na.rm = TRUE), 1), 
                    sd.epi.duration = round(as.numeric(sd(epi.duration, na.rm = TRUE)), 1)
   )
-write.csv(summary.season.mcm, file = "output/summary_season_MCM.csv", 
-          quote = F, row.names = F)
 
 summary.mcm <- epi.params.mcm %>% 
   dplyr::summarise(mean.epi.start = round(mean(epi.start, na.rm = TRUE), 1), 

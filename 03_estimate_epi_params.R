@@ -19,7 +19,7 @@ library(tidyverse)
 # onset. Epidemic parameters estimated by this method are used as the gold 
 # standard.
 
-# first, need to label winter influenza seasons, running from week 35 to the 
+# first, need to label influenza seasons, running from week 35 to the 
 # upcoming week 34
 library(ISOweek)
 year.range <- range(pref.flu1$year)
