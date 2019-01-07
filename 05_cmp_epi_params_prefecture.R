@@ -237,8 +237,8 @@ pd <- data.frame(epi.params.etm[c(1:2)],
 lmfit <- lm(etm ~ srm, data = pd)
 summary(lmfit)
 coef(lmfit)
-b1 <- coef(lmfit)[1]
-b2 <- coef(lmfit)[2]
+b0 <- coef(lmfit)[1]
+b1 <- coef(lmfit)[2]
 (r2 <- summary(lmfit)$r.squared)
 (pval <- anova(lmfit)$'Pr(>F)'[1])
 
@@ -261,7 +261,7 @@ p1 <- ggplot() +
   theme(axis.line = element_blank(), 
         panel.border = element_rect(color = "black", size = 1, fill = NA), 
         plot.title = element_text(hjust = 0.5, face = "bold"))
-p1 <- ggdraw(p1) + draw_label(TeX(glue("$\\mathit{{y}}$ = {round(b1, 2)} + {format(round(b2, 2), nsmall = 2)}$\\mathit{{x}}$")), 0.45, 0.8, size = 12) + 
+p1 <- ggdraw(p1) + draw_label(TeX(glue("$\\mathit{{y}}$ = {format(round(b0, 2), nsmall = 2)} + {format(round(b1, 2), nsmall = 2)}$\\mathit{{x}}$")), 0.45, 0.8, size = 12) + 
   draw_label(TeX(glue("$R^2$ = {format(round(r2, 2), nsmall = 2)}, $$\\mathit{{p}}$ < 0.001")), 
              0.45, 0.74, size = 12)
 
@@ -272,8 +272,8 @@ pd <- data.frame(epi.params.etm[c(1:2)],
 lmfit <- lm(etm ~ mcm, data = pd)
 summary(lmfit)
 coef(lmfit)
-b1 <- coef(lmfit)[1]
-b2 <- coef(lmfit)[2]
+b0 <- coef(lmfit)[1]
+b1 <- coef(lmfit)[2]
 (r2 <- summary(lmfit)$r.squared)
 (pval <- anova(lmfit)$'Pr(>F)'[1])
 
@@ -295,7 +295,7 @@ p2 <- ggplot() +
   theme(axis.line = element_blank(), 
         panel.border = element_rect(color = "black", size = 1, fill = NA), 
         plot.title = element_text(hjust = 0.5, face = "bold"))
-p2 <- ggdraw(p2) + draw_label(TeX(glue("$\\mathit{{y}}$ = {round(b1, 2)} + {round(b2, 2)}$\\mathit{{x}}$")), 0.45, 0.8, size = 12) + 
+p2 <- ggdraw(p2) + draw_label(TeX(glue("$\\mathit{{y}}$ = {format(round(b0, 2), nsmall = 2)} + {format(round(b1, 2), nsmall = 2)}$\\mathit{{x}}$")), 0.45, 0.8, size = 12) + 
   draw_label(TeX(glue("$R^2$ = {format(round(r2, 2), nsmall = 2)}, $$\\mathit{{p}}$ < 0.001")), 
              0.45, 0.74, size = 12)
 
@@ -306,8 +306,8 @@ pd <- data.frame(epi.params.etm[c(1:2)],
 lmfit <- lm(etm ~ srm, data = pd)
 summary(lmfit)
 coef(lmfit)
-b1 <- coef(lmfit)[1]
-b2 <- coef(lmfit)[2]
+b0 <- coef(lmfit)[1]
+b1 <- coef(lmfit)[2]
 (r2 <- summary(lmfit)$r.squared)
 (pval <- anova(lmfit)$'Pr(>F)'[1])
 
@@ -329,7 +329,7 @@ p3 <- ggplot() +
   theme(axis.line = element_blank(), 
         panel.border = element_rect(color = "black", size = 1, fill = NA), 
         plot.title = element_text(hjust = 0.5, face = "bold"))
-p3 <- ggdraw(p3) + draw_label(TeX(glue("$\\mathit{{y}}$ = {round(b1, 2)} + {round(b2, 2)}$\\mathit{{x}}$")), 0.65, 0.30, size = 12) + 
+p3 <- ggdraw(p3) + draw_label(TeX(glue("$\\mathit{{y}}$ = {format(round(b0, 2), nsmall = 2)} + {format(round(b1, 2), nsmall = 2)}$\\mathit{{x}}$")), 0.65, 0.30, size = 12) + 
   draw_label(TeX(glue("$R^2$ = {format(round(r2, 2), nsmall = 2)}, $$\\mathit{{p}}$ < 0.001")), 
              0.65, 0.24, size = 12)
 
@@ -339,8 +339,8 @@ pd <- data.frame(epi.params.etm[c(1:2)],
 lmfit <- lm(etm ~ mcm, data = pd)
 summary(lmfit)
 coef(lmfit)
-b1 <- coef(lmfit)[1]
-b2 <- coef(lmfit)[2]
+b0 <- coef(lmfit)[1]
+b1 <- coef(lmfit)[2]
 (r2 <- summary(lmfit)$r.squared)
 (pval <- anova(lmfit)$'Pr(>F)'[1])
 
@@ -362,7 +362,7 @@ p4 <- ggplot() +
   theme(axis.line = element_blank(), 
         panel.border = element_rect(color = "black", size = 1, fill = NA), 
         plot.title = element_text(hjust = 0.5, face = "bold"))
-p4 <- ggdraw(p4) + draw_label(TeX(glue("$\\mathit{{y}}$ = {round(b1, 2)} + {round(b2, 2)}$\\mathit{{x}}$")), 0.65, 0.3, size = 12) + 
+p4 <- ggdraw(p4) + draw_label(TeX(glue("$\\mathit{{y}}$ = {format(round(b0, 2), nsmall = 2)} + {format(round(b1, 2), nsmall = 2)}$\\mathit{{x}}$")), 0.65, 0.3, size = 12) + 
   draw_label(TeX(glue("$R^2$ = {format(round(r2, 2), nsmall = 2)}, $$\\mathit{{p}}$ < 0.001")), 
              0.65, 0.24, size = 12)
 
@@ -373,8 +373,8 @@ pd <- data.frame(epi.params.etm[c(1:2)],
 lmfit <- lm(etm ~ srm, data = pd)
 summary(lmfit)
 coef(lmfit)
-b1 <- coef(lmfit)[1]
-b2 <- coef(lmfit)[2]
+b0 <- coef(lmfit)[1]
+b1 <- coef(lmfit)[2]
 (r2 <- summary(lmfit)$r.squared)
 (pval <- anova(lmfit)$'Pr(>F)'[1])
 
@@ -396,7 +396,7 @@ p5 <- ggplot() +
   theme(axis.line = element_blank(), 
         panel.border = element_rect(color = "black", size = 1, fill = NA), 
         plot.title = element_text(hjust = 0.5, face = "bold"))
-p5 <- ggdraw(p5) + draw_label(TeX(glue("$\\mathit{{y}}$ = {format(round(b1, 2), nsmall = 2)} - {abs(round(b2, 2))}$\\mathit{{x}}$")), 0.65, 0.3, size = 12) + 
+p5 <- ggdraw(p5) + draw_label(TeX(glue("$\\mathit{{y}}$ = {format(round(b0, 2), nsmall = 2)} - {format(abs(round(b1, 2)), nsmall = 2)}$\\mathit{{x}}$")), 0.65, 0.3, size = 12) + 
   draw_label(TeX(glue("$R^2$ < 0.01, $$\\mathit{{p}}$ = {format(round(pval, 2), nsmall = 2)}")), 
              0.65, 0.24, size = 12)
 
@@ -406,8 +406,8 @@ pd <- data.frame(epi.params.etm[c(1:2)],
 lmfit <- lm(etm ~ mcm, data = pd)
 summary(lmfit)
 coef(lmfit)
-b1 <- coef(lmfit)[1]
-b2 <- coef(lmfit)[2]
+b0 <- coef(lmfit)[1]
+b1 <- coef(lmfit)[2]
 (r2 <- summary(lmfit)$r.squared)
 (pval <- anova(lmfit)$'Pr(>F)'[1])
 
@@ -429,7 +429,7 @@ p6 <- ggplot() +
   theme(axis.line = element_blank(), 
         panel.border = element_rect(color = "black", size = 1, fill = NA), 
         plot.title = element_text(hjust = 0.5, face = "bold"))
-p6 <- ggdraw(p6) + draw_label(TeX(glue("$\\mathit{{y}}$ = {round(b1, 2)} + {format(round(b2, 2), nsmall = 2)}$\\mathit{{x}}$")), 0.65, 0.3, size = 12) + 
+p6 <- ggdraw(p6) + draw_label(TeX(glue("$\\mathit{{y}}$ = {format(round(b0, 2), nsmall = 2)} + {format(round(b1, 2), nsmall = 2)}$\\mathit{{x}}$")), 0.65, 0.3, size = 12) + 
   draw_label(TeX(glue("$R^2$ = {format(round(r2, 2), nsmall = 2)}, $$\\mathit{{p}}$ < 0.001")), 
              0.65, 0.24, size = 12)
 
