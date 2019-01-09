@@ -9,10 +9,10 @@ pref <- "Okinawa"
 s <- "2012/2013"
 x <- subset(pref.flu1, season == s & Prefecture == pref)
 ec <- data.frame(t = x$weeknum_of_season, y = x$flu.sentinel)
-epi.params <- curvature.ec(ec)
-res <- calc.curvature(ec)
-# linearly extrapolate to pad data at the front and rear
 n <- 5
+epi.params <- curvature.ec(ec, n = n, h = 5.0)
+res <- calc.curvature(ec, n = n, h = 5.0)
+# linearly extrapolate to pad data at the front and rear
 pad <- (n - 1) / 2
 ec1 <- pad.ec(ec, pad)
 

@@ -182,7 +182,7 @@ p1 <- ggplot(epi.params, aes(season, epi.start, fill = method)) +
 
 p2 <- ggplot(epi.params, aes(season, epi.end, fill = method)) + 
   geom_boxplot(position = position_dodge(0.8), width = 0.6) + 
-  labs(x = "Season", y = "Epidemic ending (weeks)") + 
+  labs(x = "Season", y = "Epidemic end (weeks)") + 
   scale_fill_npg() + 
   theme_classic() + 
   theme(legend.position = "none")
@@ -324,7 +324,7 @@ p3 <- ggplot() +
   scale_y_continuous(expand = c(0, 0), limits = c(25, 55),
                      breaks = seq(25, 55, by = 5)) +
   labs(x = "SRM", y = "ETM", 
-       title = "Epidemic ending") + 
+       title = "Epidemic end") + 
   theme_classic() +  
   theme(axis.line = element_blank(), 
         panel.border = element_rect(color = "black", size = 1, fill = NA), 
@@ -357,7 +357,7 @@ p4 <- ggplot() +
   scale_y_continuous(expand = c(0, 0), limits = c(25, 55), 
                      breaks = seq(25, 55, by = 5)) + 
   labs(x = "MCM", y = "ETM", 
-       title = "Epidemic ending") + 
+       title = "Epidemic end") + 
   theme_classic() +  
   theme(axis.line = element_blank(), 
         panel.border = element_rect(color = "black", size = 1, fill = NA), 

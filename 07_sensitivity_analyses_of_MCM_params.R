@@ -14,7 +14,7 @@ ec <- data.frame(t = df$weeknum_of_season, y = df$flu.sentinel)
 x <- calc.curvature(ec, n = 5, h = 5)
 
 # sensitivity analyses of n and h for MCM
-nh <- expand.grid(n = c(3, 5, 7), h = c(3, 5, 10))
+nh <- expand.grid(n = c(3, 5, 7), h = c(4.0, 6.0, 8.0, 10.0))
 
 mcm.sa <- ddply(pref.flu1, .(Prefecture, season), function(df) {
   ec <- data.frame(t = df$weeknum_of_season, y = df$flu.sentinel)
@@ -30,6 +30,9 @@ mcm.sa <- mcm.sa %>%
          epi.end.date = pre.season.ending + epi.end * 7, 
          epi.peak.date = pre.season.ending + epi.peak * 7)
 
+library(latex2exp)
+library(glue)
+library(cowplot)
 # compare epidemic params from MCM with those from those from ETM
 # epidemic onset
 plist <- list()
@@ -57,7 +60,7 @@ for (i in 1:nrow(nh)) {
     scale_y_continuous(expand = c(0, 0), limits = c(0, 30), 
                        breaks = seq(0, 30, by = 5)) + 
     labs(x = "MCM", y = "ETM", 
-         title = TeX(glue("$\\mathit{{n}}$ = {ni}, $\\mathit{{h}}$ = {hi}"))) + 
+         title = TeX(glue("$\\mathit{{n}}$ = {ni}, $\\mathit{{h}}$ = {format(hi, nsmall = 1)}"))) + 
     theme_classic() +  
     theme(axis.line = element_blank(), 
           panel.border = element_rect(color = "black", size = 1, fill = NA), 
@@ -72,7 +75,7 @@ for (i in 1:nrow(nh)) {
 }
 
 outfile <- glue("figs/sensitivity_analyses/sa_epi_start.pdf")
-pdf(outfile, width = 9, height = 9)
+pdf(outfile, width = 9, height = 12)
 p <- plot_grid(plotlist = plist, align = "hv", ncol = 3)
 # now add the title
 title <- ggdraw() + draw_label("Epidemic onset", fontface = 'bold')
@@ -106,7 +109,7 @@ for (i in 1:nrow(nh)) {
     scale_y_continuous(expand = c(0, 0), limits = c(25, 55), 
                        breaks = seq(25, 55, by = 5)) + 
     labs(x = "MCM", y = "ETM", 
-         title = TeX(glue("$\\mathit{{n}}$ = {ni}, $\\mathit{{h}}$ = {hi}"))) + 
+         title = TeX(glue("$\\mathit{{n}}$ = {ni}, $\\mathit{{h}}$ = {format(hi, nsmall = 1)}"))) + 
     theme_classic() +  
     theme(axis.line = element_blank(), 
           panel.border = element_rect(color = "black", size = 1, fill = NA), 
@@ -121,9 +124,9 @@ for (i in 1:nrow(nh)) {
 }
 
 outfile <- glue("figs/sensitivity_analyses/sa_epi_end.pdf")
-pdf(outfile, width = 9, height = 9)
+pdf(outfile, width = 9, height = 12)
 p <- plot_grid(plotlist = plist, align = "hv", ncol = 3)
-title <- ggdraw() + draw_label("Epidemic ending", fontface = 'bold')
+title <- ggdraw() + draw_label("Epidemic end", fontface = 'bold')
 plot_grid(title, p, ncol = 1, rel_heights = c(0.04, 1))
 dev.off()
 
@@ -154,7 +157,7 @@ for (i in 1:nrow(nh)) {
     scale_y_continuous(expand = c(0, 0), limits = c(5, 40), 
                        breaks = seq(5, 40, by = 5)) + 
     labs(x = "MCM", y = "ETM", 
-         title = TeX(glue("$\\mathit{{n}}$ = {ni}, $\\mathit{{h}}$ = {hi}"))) + 
+         title = TeX(glue("$\\mathit{{n}}$ = {ni}, $\\mathit{{h}}$ = {format(hi, nsmall = 1)}"))) + 
     theme_classic() +  
     theme(axis.line = element_blank(), 
           panel.border = element_rect(color = "black", size = 1, fill = NA), 
@@ -169,7 +172,7 @@ for (i in 1:nrow(nh)) {
 }
 
 outfile <- glue("figs/sensitivity_analyses/sa_epi_duration.pdf")
-pdf(outfile, width = 9, height = 9)
+pdf(outfile, width = 9, height = 12)
 p <- plot_grid(plotlist = plist, align = "hv", ncol = 3)
 title <- ggdraw() + draw_label("Epidemic duration", fontface = 'bold')
 plot_grid(title, p, ncol = 1, rel_heights = c(0.04, 1))

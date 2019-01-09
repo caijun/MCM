@@ -52,8 +52,8 @@ ec <- data.frame(t = x$weeknum_of_season, y = x$flu.sentinel)
 interp.ec(ec)
 segment.ec(ec)
 # better results without smoothing
-curvature.ec(ec, smoothing = FALSE)
-curvature.ec(ec, smoothing = TRUE)
+curvature.ec(ec, n = 5, h = 5.0, smoothing = FALSE)
+curvature.ec(ec, n = 5, h = 5.0, smoothing = TRUE)
 
 # following analyses are on week unit
 # use empirical threhsold method (ETM)
@@ -82,7 +82,7 @@ epi.params.srm <- epi.params.srm %>%
 # use maximum curvature method (MCM)
 epi.params.mcm <- ddply(pref.flu1, .(Prefecture, season), function(df) {
   curvature.ec(data.frame(t = df$weeknum_of_season, y = df$flu.sentinel), 
-               smoothing = FALSE)
+               n = 5, h = 5.0, smoothing = FALSE)
 })
 
 epi.params.mcm <- epi.params.mcm %>% 

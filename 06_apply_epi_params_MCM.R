@@ -18,27 +18,28 @@ mean.epi.params <- epi.params %>%
                    sd.epi.start = round(sd(epi.start, na.rm = TRUE), 1), 
                    max.epi.start = round(max(epi.start, na.rm = TRUE), 1), 
                    min.epi.start = round(min(epi.start, na.rm = TRUE), 1), 
-                   mean.epi.start.num = round(mean(epi.start.num, na.rm = TRUE), 2), 
-                   sd.epi.start.num = round(sd(epi.start, na.rm = TRUE), 2), 
+                   mean.epi.start.num = round(mean(epi.start.num, na.rm = TRUE), 1), 
+                   sd.epi.start.num = round(sd(epi.start, na.rm = TRUE), 1), 
                    mean.epi.end = round(mean(epi.end, na.rm = TRUE), 1), 
                    sd.epi.end = round(sd(epi.end, na.rm = TRUE), 1), 
-                   mean.epi.end.num = round(mean(epi.end.num, na.rm = TRUE), 2), 
-                   sd.epi.end.num = round(sd(epi.end.num, na.rm = TRUE), 2), 
+                   mean.epi.end.num = round(mean(epi.end.num, na.rm = TRUE), 1), 
+                   sd.epi.end.num = round(sd(epi.end.num, na.rm = TRUE), 1), 
                    mean.epi.peak = round(mean(epi.peak, na.rm = TRUE), 1), 
                    sd.epi.peak = round(sd(epi.peak, na.rm = TRUE), 1), 
-                   mean.epi.peak.num = round(mean(epi.peak.num, na.rm = TRUE), 2), 
-                   sd.epi.peak.num = round(sd(epi.peak.num, na.rm = TRUE), 2), 
+                   mean.epi.peak.num = round(mean(epi.peak.num, na.rm = TRUE), 1), 
+                   sd.epi.peak.num = round(sd(epi.peak.num, na.rm = TRUE), 1), 
                    max.epi.peak.num = max(epi.peak.num), 
                    min.epi.peak.num = min(epi.peak.num), 
                    mean.epi.duration = round(mean(epi.duration, na.rm = TRUE), 1), 
                    sd.epi.duration = round(as.numeric(sd(epi.duration, na.rm = TRUE)), 1), 
-                   mean.epi.duration.num = round(mean(epi.duration.num, na.rm = TRUE), 2), 
-                   sd.epi.duration.num = round(sd(epi.duration.num, na.rm = TRUE), 2)
+                   mean.epi.duration.num = round(mean(epi.duration.num, na.rm = TRUE), 1), 
+                   sd.epi.duration.num = round(sd(epi.duration.num, na.rm = TRUE), 1)
   )
 
 # significant correlation between epidemic onset threshold and epidemic ending threshold
+# If h = 3.0 or 3.5, the Pearson's correlation would become insignifcant.
 cor.test(mean.epi.params$mean.epi.start.num, mean.epi.params$mean.epi.end.num, 
-         use = "complete.obs")
+         method = "pearson")
 
 # write prefecture-specific mean(sd) of epidemic onset intensity and epidemic 
 # end intensity into csv
@@ -66,13 +67,13 @@ p1 <- ggplot(data = mean.epi.params) +
   geom_bar(aes(x = Prefecture, y = mean.epi.start.num, fill = mean.epi.start), 
            stat = 'identity', width = 1, color = "gray30") + 
   geom_text(aes(x = Prefecture, y = mean.epi.start.num, 
-                label = format(mean.epi.start.num, nsmall = 2), hjust = 1.1), color = "gray50", 
+                label = format(mean.epi.start.num, nsmall = 1), hjust = 1.1), color = "gray50", 
             position = position_dodge(width = 1)) + 
   geom_hline(yintercept = 1.0, color = "red", linetype = "dashed") + 
   scale_x_discrete(expand = expand_scale(mult = c(0, 0.02))) + 
   scale_y_continuous(expand = expand_scale(mult = c(0, 0.01)), 
                      breaks = seq(0, 1.5, by = 0.5)) + 
-  scale_fill_gradient(limits = c(12, 18), breaks = seq(12, 18, by = 1),
+  scale_fill_gradient(limits = c(12, 17), breaks = seq(12, 17, by = 1),
                       low = "white", high = "red",
                       guide = guide_colorbar(title = "Mean epidemic onset\n (weeks)",
                                              title.position = "top",
@@ -95,7 +96,7 @@ p2 <- ggplot(data = mean.epi.params) +
   geom_bar(aes(x =  Prefecture, y = mean.epi.end.num, fill = mean.epi.end), 
            stat = 'identity', width = 1, color = "gray30") + 
   geom_text(aes(x = Prefecture, y = mean.epi.end.num, 
-                label = format(mean.epi.end.num, nsmall = 2), hjust = 1.1), color = "gray50", 
+                label = format(mean.epi.end.num, nsmall = 1), hjust = 1.1), color = "gray50", 
             position = position_dodge(width = 1)) + 
   geom_hline(yintercept = 1.0, color = "red", linetype = "dashed") + 
   scale_x_discrete(expand = expand_scale(mult = c(0, 0.02))) + 
@@ -103,7 +104,7 @@ p2 <- ggplot(data = mean.epi.params) +
                      breaks = seq(0, 3, by = 0.5)) + 
   scale_fill_gradient(limits = c(31, 43), breaks = seq(31, 43, by = 2), 
                       low = "white", high = "red", 
-                      guide = guide_colorbar(title = "Mean epidemic ending\n (weeks)",
+                      guide = guide_colorbar(title = "Mean epidemic end\n (weeks)",
                                              title.position = "top", 
                                              title.hjust = 0.5, 
                                              barwidth = 8,
