@@ -12,29 +12,32 @@ library(tidyverse)
 epi.params <- epi.params.mcm %>% 
   dplyr::filter(Prefecture != "Japan")
 
+mean.epi.params0 <- epi.params %>% 
+  group_by(Prefecture) %>% 
+  dplyr::summarise(mean.epi.start = round(mean(epi.start, na.rm = TRUE), 1), 
+                   sd.epi.start = round(sd(epi.start, na.rm = TRUE), 1), 
+                   mean.epi.start.num = round(mean(epi.start.num, na.rm = TRUE), 2), 
+                   sd.epi.start.num = round(sd(epi.start, na.rm = TRUE), 2), 
+                   mean.epi.end = round(mean(epi.end, na.rm = TRUE), 1), 
+                   sd.epi.end = round(sd(epi.end, na.rm = TRUE), 1), 
+                   mean.epi.end.num = round(mean(epi.end.num, na.rm = TRUE), 2), 
+                   sd.epi.end.num = round(sd(epi.end.num, na.rm = TRUE), 2)
+  )
+
 mean.epi.params <- epi.params %>% 
   group_by(Prefecture) %>% 
   dplyr::summarise(mean.epi.start = round(mean(epi.start, na.rm = TRUE), 1), 
                    sd.epi.start = round(sd(epi.start, na.rm = TRUE), 1), 
-                   max.epi.start = round(max(epi.start, na.rm = TRUE), 1), 
-                   min.epi.start = round(min(epi.start, na.rm = TRUE), 1), 
                    mean.epi.start.num = round(mean(epi.start.num, na.rm = TRUE), 1), 
                    sd.epi.start.num = round(sd(epi.start, na.rm = TRUE), 1), 
                    mean.epi.end = round(mean(epi.end, na.rm = TRUE), 1), 
                    sd.epi.end = round(sd(epi.end, na.rm = TRUE), 1), 
                    mean.epi.end.num = round(mean(epi.end.num, na.rm = TRUE), 1), 
-                   sd.epi.end.num = round(sd(epi.end.num, na.rm = TRUE), 1), 
-                   mean.epi.peak = round(mean(epi.peak, na.rm = TRUE), 1), 
-                   sd.epi.peak = round(sd(epi.peak, na.rm = TRUE), 1), 
-                   mean.epi.peak.num = round(mean(epi.peak.num, na.rm = TRUE), 1), 
-                   sd.epi.peak.num = round(sd(epi.peak.num, na.rm = TRUE), 1), 
-                   max.epi.peak.num = max(epi.peak.num), 
-                   min.epi.peak.num = min(epi.peak.num), 
-                   mean.epi.duration = round(mean(epi.duration, na.rm = TRUE), 1), 
-                   sd.epi.duration = round(as.numeric(sd(epi.duration, na.rm = TRUE)), 1), 
-                   mean.epi.duration.num = round(mean(epi.duration.num, na.rm = TRUE), 1), 
-                   sd.epi.duration.num = round(sd(epi.duration.num, na.rm = TRUE), 1)
+                   sd.epi.end.num = round(sd(epi.end.num, na.rm = TRUE), 1)
   )
+
+sum(mean.epi.params$mean.epi.start.num < 1.0)
+sum(mean.epi.params$mean.epi.end.num > 1.0)
 
 # significant correlation between epidemic onset threshold and epidemic ending threshold
 # If h = 3.0 or 3.5, the Pearson's correlation would become insignifcant.
@@ -48,10 +51,10 @@ pref.attr <- read.csv("data/Japan_Prefecture.csv", stringsAsFactors = FALSE)
 res <- mean.epi.params %>% 
   select(Prefecture, mean.epi.start.num, sd.epi.start.num, mean.epi.end.num, 
          sd.epi.end.num) %>% 
-  mutate(mean.sd.epi.start.num = paste0(format(mean.epi.start.num, nsmall = 2), 
-                                        " (", format(sd.epi.start.num, nsmall = 2), ")"), 
-         mean.sd.epi.end.num = paste0(format(mean.epi.end.num, nsmall = 2), 
-                                      " (", format(sd.epi.end.num, nsmall = 2), ")")) %>%
+  mutate(mean.sd.epi.start.num = paste0(format(mean.epi.start.num, nsmall = 1), 
+                                        " (", format(sd.epi.start.num, nsmall = 1), ")"), 
+         mean.sd.epi.end.num = paste0(format(mean.epi.end.num, nsmall = 1), 
+                                      " (", format(sd.epi.end.num, nsmall = 1), ")")) %>%
   left_join(pref.attr[c("ID", "Prefecture")], by = "Prefecture") %>%
   select(ID, Prefecture, mean.sd.epi.start.num, mean.sd.epi.end.num) %>%
   arrange(ID)
@@ -59,9 +62,12 @@ write.csv(res, file = "output/pref_epi_thresholds.csv", row.names = F,
           quote = F)
 
 # order prefectures by increasing mean epidemic onset intensity
-mean.epi.params <- mean.epi.params %>%
-  arrange(mean.epi.start.num) %>%
-  mutate(Prefecture = factor(Prefecture, levels = rev(as.character(Prefecture))))
+mean.epi.params0 <- mean.epi.params0 %>%
+  arrange(mean.epi.start.num)
+
+mean.epi.params <- mean.epi.params %>% 
+  mutate(Prefecture = factor(Prefecture, 
+                             levels = rev(as.character(mean.epi.params0$Prefecture))))
 
 p1 <- ggplot(data = mean.epi.params) + 
   geom_bar(aes(x = Prefecture, y = mean.epi.start.num, fill = mean.epi.start), 
@@ -88,9 +94,12 @@ p1 <- ggplot(data = mean.epi.params) +
   theme(legend.position = c(0.7, 0.8))
 
 # order prefectures by increasing mean epidemic ending intensity
-mean.epi.params <- mean.epi.params %>%
-  arrange(mean.epi.end.num) %>%
-  mutate(Prefecture = factor(Prefecture, levels = rev(as.character(Prefecture))))
+mean.epi.params0 <- mean.epi.params0 %>%
+  arrange(mean.epi.end.num)
+
+mean.epi.params <- mean.epi.params %>% 
+  mutate(Prefecture = factor(Prefecture, 
+                             levels = rev(as.character(mean.epi.params0$Prefecture))))
 
 p2 <- ggplot(data = mean.epi.params) + 
   geom_bar(aes(x =  Prefecture, y = mean.epi.end.num, fill = mean.epi.end), 

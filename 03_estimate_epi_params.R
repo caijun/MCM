@@ -33,27 +33,11 @@ pref.flu1 <- pref.flu1 %>%
   dplyr::mutate(weeknum_of_season = 1:n()) %>% 
   ungroup()
 
-# linear interpolate epidemic start and end dates by prefecture and season
-# x <- subset(pref.flu1, season == "2012/2013" & Prefecture == "Okinawa")
-# x <- subset(pref.flu1, season == "2016/2017" & Prefecture == "Tokyo")
-# x <- subset(pref.flu1, season == "2016/2017" & Prefecture == "Kyoto")
-# x <- subset(pref.flu1, season == "2012/2013" & Prefecture == "Oita")
-# x <- subset(pref.flu1, season == "2013/2014" & Prefecture == "Mie")
-# x <- subset(pref.flu1, season == "2016/2017" & Prefecture == "Hokkaido")
-# x <- subset(pref.flu1, season == "2012/2013" & Prefecture == "Hiroshima")
-# x <- subset(pref.flu1, season == "2016/2017" & Prefecture == "Aichi")
 x <- subset(pref.flu1, season == "2013/2014" & Prefecture == "Akita")
-# epidemic onset number esitmated by using MCM are very large
-# without setting the upper threshold of 5.0 for certain prefectures
-# x <- subset(pref.flu1, season == "2016/2017" & Prefecture == "Hokkaido")
-# x <- subset(pref.flu1, season == "2016/2017" & Prefecture == "Iwate")
-# x <- subset(pref.flu1, season == "2016/2017" & Prefecture == "Okinawa")
 ec <- data.frame(t = x$weeknum_of_season, y = x$flu.sentinel)
 interp.ec(ec)
 segment.ec(ec)
-# better results without smoothing
 curvature.ec(ec, n = 5, h = 5.0, smoothing = FALSE)
-curvature.ec(ec, n = 5, h = 5.0, smoothing = TRUE)
 
 # following analyses are on week unit
 # use empirical threhsold method (ETM)

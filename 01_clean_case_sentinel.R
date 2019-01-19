@@ -92,7 +92,8 @@ x <- pref.flu %>%
   group_by(isoweek) %>% 
   dplyr::summarise(flu.sentinel = mean(flu.sentinel))
 
-# study period 2012 week 35 to 2018 week 34, namely 2012-09-02 to 2018-08-26 in terms of weekedning date
+# study period 2012 week 35 to 2018 week 34, namely 2012-09-02 to 2018-08-26 in 
+# terms of weekedning date
 nation.flu1 <- nation.flu %>% 
   dplyr::filter(weekending >= "2012-09-01" & weekending <= "2018-09-01") %>% 
   select(-date_of_report, -weeknum1) %>% 

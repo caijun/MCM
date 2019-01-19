@@ -53,8 +53,6 @@ summary.season.etm <- epi.params.etm %>%
   group_by(season) %>% 
   dplyr::summarise(mean.epi.start = round(mean(epi.start, na.rm = TRUE), 1), 
                    sd.epi.start = round(sd(epi.start, na.rm = TRUE), 1), 
-                   max.epi.start = round(max(epi.start, na.rm = TRUE), 1), 
-                   min.epi.start = round(min(epi.start, na.rm = TRUE), 1), 
                    mean.epi.start.num = round(mean(epi.start.num, na.rm = TRUE), 2), 
                    sd.epi.start.num = round(sd(epi.start, na.rm = TRUE), 2), 
                    mean.epi.end = round(mean(epi.end, na.rm = TRUE), 1), 
@@ -68,8 +66,6 @@ summary.season.etm <- epi.params.etm %>%
 summary.etm <- epi.params.etm %>% 
   dplyr::summarise(mean.epi.start = round(mean(epi.start, na.rm = TRUE), 1), 
                    sd.epi.start = round(sd(epi.start, na.rm = TRUE), 1), 
-                   max.epi.start = round(max(epi.start, na.rm = TRUE), 1), 
-                   min.epi.start = round(min(epi.start, na.rm = TRUE), 1), 
                    mean.epi.start.num = round(mean(epi.start.num, na.rm = TRUE), 2), 
                    sd.epi.start.num = round(sd(epi.start, na.rm = TRUE), 2), 
                    mean.epi.end = round(mean(epi.end, na.rm = TRUE), 1), 
@@ -85,8 +81,6 @@ summary.season.srm <- epi.params.srm %>%
   group_by(season) %>% 
   dplyr::summarise(mean.epi.start = round(mean(epi.start, na.rm = TRUE), 1), 
                    sd.epi.start = round(sd(epi.start, na.rm = TRUE), 1), 
-                   max.epi.start = round(max(epi.start, na.rm = TRUE), 1), 
-                   min.epi.start = round(min(epi.start, na.rm = TRUE), 1), 
                    mean.epi.start.num = round(mean(epi.start.num, na.rm = TRUE), 2), 
                    sd.epi.start.num = round(sd(epi.start, na.rm = TRUE), 2), 
                    mean.epi.end = round(mean(epi.end, na.rm = TRUE), 1), 
@@ -100,8 +94,6 @@ summary.season.srm <- epi.params.srm %>%
 summary.srm <- epi.params.srm %>% 
   dplyr::summarise(mean.epi.start = round(mean(epi.start, na.rm = TRUE), 1), 
                    sd.epi.start = round(sd(epi.start, na.rm = TRUE), 1), 
-                   max.epi.start = round(max(epi.start, na.rm = TRUE), 1), 
-                   min.epi.start = round(min(epi.start, na.rm = TRUE), 1), 
                    mean.epi.start.num = round(mean(epi.start.num, na.rm = TRUE), 2), 
                    sd.epi.start.num = round(sd(epi.start, na.rm = TRUE), 2), 
                    mean.epi.end = round(mean(epi.end, na.rm = TRUE), 1), 
@@ -117,8 +109,6 @@ summary.season.mcm <- epi.params.mcm %>%
   group_by(season) %>% 
   dplyr::summarise(mean.epi.start = round(mean(epi.start, na.rm = TRUE), 1), 
                    sd.epi.start = round(sd(epi.start, na.rm = TRUE), 1), 
-                   max.epi.start = round(max(epi.start, na.rm = TRUE), 1), 
-                   min.epi.start = round(min(epi.start, na.rm = TRUE), 1), 
                    mean.epi.start.num = round(mean(epi.start.num, na.rm = TRUE), 2), 
                    sd.epi.start.num = round(sd(epi.start, na.rm = TRUE), 2), 
                    mean.epi.end = round(mean(epi.end, na.rm = TRUE), 1), 
@@ -132,8 +122,6 @@ summary.season.mcm <- epi.params.mcm %>%
 summary.mcm <- epi.params.mcm %>% 
   dplyr::summarise(mean.epi.start = round(mean(epi.start, na.rm = TRUE), 1), 
                    sd.epi.start = round(sd(epi.start, na.rm = TRUE), 1), 
-                   max.epi.start = round(max(epi.start, na.rm = TRUE), 1), 
-                   min.epi.start = round(min(epi.start, na.rm = TRUE), 1), 
                    mean.epi.start.num = round(mean(epi.start.num, na.rm = TRUE), 2), 
                    sd.epi.start.num = round(sd(epi.start, na.rm = TRUE), 2), 
                    mean.epi.end = round(mean(epi.end, na.rm = TRUE), 1), 
