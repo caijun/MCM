@@ -20,7 +20,7 @@ mean.epi.params0 <- epi.params %>%
                    sd.epi.start.num = round(sd(epi.start, na.rm = TRUE), 2), 
                    mean.epi.end = round(mean(epi.end, na.rm = TRUE), 1), 
                    sd.epi.end = round(sd(epi.end, na.rm = TRUE), 1), 
-                   mean.epi.end.num = round(mean(epi.end.num, na.rm = TRUE), 2), 
+                   mean.epi.end.num = round(mean(epi.end.num, na.rm = TRUE), 3), 
                    sd.epi.end.num = round(sd(epi.end.num, na.rm = TRUE), 2)
   )
 
