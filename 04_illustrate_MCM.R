@@ -174,7 +174,10 @@ p1 <- ggplot(data = pd, aes(t, y)) +
   geom_point(shape = 1) + 
   scale_x_continuous(limits = c(0, 53), breaks = seq(0, 55, by = 5), expand = c(0, 0)) + 
   labs(x = "", y = "Number of influenza\n cases per sentinel") + 
-  theme_classic()
+  theme_classic() + 
+  theme(axis.line = element_blank(), 
+        panel.border = element_rect(color = "black", size = 1, fill = NA), 
+        axis.text.x = element_blank())
 
 p2 <- ggplot(data = pd, aes(t, curvature)) + 
   geom_vline(xintercept = epi.params$epi.peak, color = "gray", linetype = "dashed") + 
@@ -184,12 +187,15 @@ p2 <- ggplot(data = pd, aes(t, curvature)) +
   geom_point(shape = 1) + 
   scale_x_continuous(limits = c(0, 53), breaks = seq(0, 55, by = 5), expand = c(0, 0)) + 
   labs(x = "", y = "Curvature") + 
-  theme_classic()
+  theme_classic() + 
+  theme(axis.line = element_blank(), 
+        panel.border = element_rect(color = "black", size = 1, fill = NA), 
+        axis.text.x = element_blank())
 
 p3 <- ggplot(data = pd, aes(t, theta)) + 
   geom_rect(aes(xmin = 0, xmax = epi.params$epi.peak, ymin = 0, ymax = 90), 
             fill = "gray") + 
-  geom_rect(aes(xmin = epi.params$epi.peak, xmax = 53, ymin = 270, ymax = 360), 
+  geom_rect(aes(xmin = epi.params$epi.peak, xmax = 53, ymin = 270, ymax = 375), 
             fill = "gray") + 
   geom_vline(xintercept = epi.params$epi.peak, color = "gray", linetype = "dashed") + 
   geom_vline(xintercept = epi.params$epi.start, color = "blue", linetype = "dashed") + 
@@ -198,9 +204,12 @@ p3 <- ggplot(data = pd, aes(t, theta)) +
   geom_line() + 
   geom_point(shape = 1) + 
   scale_x_continuous(limits = c(0, 53), breaks = seq(0, 55, by = 5), expand = c(0, 0)) + 
-  scale_y_continuous(limits = c(0, 370), breaks = seq(0, 360, by = 90), expand = c(0, 0)) + 
+  scale_y_continuous(limits = c(0, 375), breaks = seq(0, 360, by = 90), expand = c(0, 0)) + 
   labs(x = "", y = TeX("$\\theta$")) + 
-  theme_classic()
+  theme_classic() + 
+  theme(axis.line = element_blank(), 
+        panel.border = element_rect(color = "black", size = 1, fill = NA), 
+        axis.text.x = element_blank())
 
 x <- c(which(pd$tp_x == epi.params$epi.start), which(pd$tp_x == epi.params$epi.end))
 y <- pd$new.curvature[x]
@@ -215,13 +224,19 @@ p4 <- ggplot(data = pd, aes(t, new.curvature)) +
   geom_point(data = pt.df, aes(x, y), shape = 19, color = "blue") + 
   scale_x_continuous(limits = c(0, 53), breaks = seq(0, 55, by = 5), expand = c(0, 0)) + 
   labs(x = "Week number", y = "Filtered curvature") + 
-  theme_classic()
+  theme_classic() + 
+  theme(axis.line = element_blank(), 
+        panel.border = element_rect(color = "black", size = 1, fill = NA))
 
-pdf("figs/MCM_illustration.pdf", width = 6, height = 6)
 library(cowplot)
-p <- plot_grid(p1, p2, p3, p4, labels = c("(A)", "(B)", "(C)", "(D)"), align = "hv", ncol = 1, 
-               label_x = 0.1, label_y = 1)
+p1234 <- cowplot::plot_grid(p1, NULL, p2, NULL, p3, NULL, p4, 
+                            rel_heights = c(1, -0.12, 1, -0.12, 1, -0.12, 1), 
+                            labels = c("(a)", "", "(b)", "", "(c)", "", "(d)"), 
+                            align = "v", ncol = 1, 
+               label_x = 0.11, label_y = 0.96)
 # now add the title
 title <- ggdraw() + draw_label(glue("{pref}, {s}"), fontface = 'bold')
-plot_grid(title, p, ncol = 1, rel_heights = c(0.05, 1)) # rel_heights values control title margins
+p <- plot_grid(title, p1234, ncol = 1, rel_heights = c(0.05, 1)) # rel_heights values control title margins
+pdf("figs/MCM_illustration.pdf", width = 6, height = 6)
+print(p)
 dev.off()

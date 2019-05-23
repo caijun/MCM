@@ -127,5 +127,5 @@ p2 <- ggplot(data = mean.epi.params) +
 
 pdf(file = "figs/pref_epi_thresholds.pdf", width = 10, height = 7)
 library(cowplot)
-plot_grid(p1, p2, ncol = 2, labels = c("(A)", "(B)"), label_x = 0.9, label_y = 0.96)
+plot_grid(p1, p2, ncol = 2, labels = c("(a)", "(b)"), label_x = 0.9, label_y = 0.96)
 dev.off()

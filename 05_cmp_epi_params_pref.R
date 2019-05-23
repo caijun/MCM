@@ -238,7 +238,7 @@ p1 <- ggplot() +
   geom_abline(intercept = 0, slope = 1, color = "red", linetype = "dashed") + 
   geom_smooth(data = pd, aes(x = srm, y = etm), method = "lm", 
               se = FALSE) + 
-  geom_point(data = pd, aes(x = srm, y = etm)) + 
+  geom_point(data = pd, aes(x = srm, y = etm), shape = 1) + 
   scale_x_continuous(expand = c(0, 0), limits = c(0, 30), 
                      breaks = seq(0, 30, by = 5)) + 
   scale_y_continuous(expand = c(0, 0), limits = c(0, 30), 
@@ -272,7 +272,7 @@ p2 <- ggplot() +
   geom_abline(intercept = 0, slope = 1, color = "red", linetype = "dashed") + 
   geom_smooth(data = pd, aes(x = mcm, y = etm), method = "lm", 
               se = FALSE) + 
-  geom_point(data = pd, aes(x = mcm, y = etm)) + 
+  geom_point(data = pd, aes(x = mcm, y = etm), shape = 1) + 
   scale_x_continuous(expand = c(0, 0), limits = c(0, 30), 
                      breaks = seq(0, 30, by = 5)) + 
   scale_y_continuous(expand = c(0, 0), limits = c(0, 30), 
@@ -306,10 +306,10 @@ p3 <- ggplot() +
   geom_abline(intercept = 0, slope = 1, color = "red", linetype = "dashed") + 
   geom_smooth(data = pd, aes(x = srm, y = etm), method = "lm", 
               se = FALSE) + 
-  geom_point(data = pd, aes(x = srm, y = etm)) + 
-  scale_x_continuous(expand = c(0, 0), limits = c(25, 55),
+  geom_point(data = pd, aes(x = srm, y = etm), shape = 1) + 
+  scale_x_continuous(expand = c(0, 0), limits = c(24, 51),
                      breaks = seq(25, 55, by = 5)) +
-  scale_y_continuous(expand = c(0, 0), limits = c(25, 55),
+  scale_y_continuous(expand = c(0, 0), limits = c(24, 51),
                      breaks = seq(25, 55, by = 5)) +
   labs(x = "SRM", y = "ETM", 
        title = "Epidemic end") + 
@@ -339,10 +339,10 @@ p4 <- ggplot() +
   geom_abline(intercept = 0, slope = 1, color = "red", linetype = "dashed") + 
   geom_smooth(data = pd, aes(x = mcm, y = etm), method = "lm", 
               se = FALSE) + 
-  geom_point(data = pd, aes(x = mcm, y = etm)) + 
-  scale_x_continuous(expand = c(0, 0), limits = c(25, 55), 
+  geom_point(data = pd, aes(x = mcm, y = etm), shape = 1) + 
+  scale_x_continuous(expand = c(0, 0), limits = c(24, 51), 
                      breaks = seq(25, 55, by = 5)) + 
-  scale_y_continuous(expand = c(0, 0), limits = c(25, 55), 
+  scale_y_continuous(expand = c(0, 0), limits = c(24, 51), 
                      breaks = seq(25, 55, by = 5)) + 
   labs(x = "MCM", y = "ETM", 
        title = "Epidemic end") + 
@@ -373,7 +373,7 @@ p5 <- ggplot() +
   geom_abline(intercept = 0, slope = 1, color = "red", linetype = "dashed") + 
   geom_smooth(data = pd, aes(x = srm, y = etm), method = "lm", 
               se = FALSE) + 
-  geom_point(data = pd, aes(x = srm, y = etm)) + 
+  geom_point(data = pd, aes(x = srm, y = etm), shape = 1) + 
   scale_x_continuous(expand = c(0, 0), limits = c(5, 40),
                      breaks = seq(5, 40, by = 5)) +
   scale_y_continuous(expand = c(0, 0), limits = c(5, 40),
@@ -406,7 +406,7 @@ p6 <- ggplot() +
   geom_abline(intercept = 0, slope = 1, color = "red", linetype = "dashed") + 
   geom_smooth(data = pd, aes(x = mcm, y = etm), method = "lm", 
               se = FALSE) + 
-  geom_point(data = pd, aes(x = mcm, y = etm)) + 
+  geom_point(data = pd, aes(x = mcm, y = etm), shape = 1) + 
   scale_x_continuous(expand = c(0, 0), limits = c(5, 40), 
                      breaks = seq(5, 40, by = 5)) + 
   scale_y_continuous(expand = c(0, 0), limits = c(5, 40), 
@@ -422,7 +422,7 @@ p6 <- ggdraw(p6) + draw_label(TeX(glue("$\\mathit{{y}}$ = {format(round(b0, 2), 
              0.65, 0.24, size = 12)
 
 
-pdf("figs/cmp_epi_params_timings_regression.pdf", width = 9, height = 6)
+pdf("figs/cmp_epi_params_timings_reg.pdf", width = 9, height = 6)
 p12 <- plot_grid(p1, p2, align = "hv", ncol = 1)
 p34 <- plot_grid(p3, p4, align = "hv", ncol = 1)
 p56 <- plot_grid(p5, p6, align = "hv", ncol = 1)
