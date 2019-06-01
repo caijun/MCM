@@ -84,7 +84,8 @@ p1 <- ggplot(data = mean.epi.params) +
                       guide = guide_colorbar(title = "Mean epidemic onset\n (weeks)",
                                              title.position = "top",
                                              title.hjust = 0.5,
-                                             barwidth = 8,
+                                             barwidth = 8, 
+                                             nbin = 1000, 
                                              ticks.colour = "black",
                                              frame.colour = "black",
                                              direction = "horizontal")) +
@@ -116,7 +117,8 @@ p2 <- ggplot(data = mean.epi.params) +
                       guide = guide_colorbar(title = "Mean epidemic end\n (weeks)",
                                              title.position = "top", 
                                              title.hjust = 0.5, 
-                                             barwidth = 8,
+                                             barwidth = 8, 
+                                             nbin = 1000, 
                                              ticks.colour = "black",
                                              frame.colour = "black", 
                                              direction = "horizontal")) + 
