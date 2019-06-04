@@ -54,7 +54,7 @@ for (i in 1:nrow(nh)) {
     geom_abline(intercept = 0, slope = 1, color = "red", linetype = "dashed") + 
     geom_smooth(data = pd, aes(x = mcm, y = etm), method = "lm", 
                 se = FALSE) + 
-    geom_point(data = pd, aes(x = mcm, y = etm)) + 
+    geom_point(data = pd, aes(x = mcm, y = etm), shape = 1) + 
     scale_x_continuous(expand = c(0, 0), limits = c(0, 30), 
                        breaks = seq(0, 30, by = 5)) + 
     scale_y_continuous(expand = c(0, 0), limits = c(0, 30), 
@@ -103,7 +103,7 @@ for (i in 1:nrow(nh)) {
     geom_abline(intercept = 0, slope = 1, color = "red", linetype = "dashed") + 
     geom_smooth(data = pd, aes(x = mcm, y = etm), method = "lm", 
                 se = FALSE) + 
-    geom_point(data = pd, aes(x = mcm, y = etm)) + 
+    geom_point(data = pd, aes(x = mcm, y = etm), shape = 1) + 
     scale_x_continuous(expand = c(0, 0), limits = c(25, 55), 
                        breaks = seq(25, 55, by = 5)) + 
     scale_y_continuous(expand = c(0, 0), limits = c(25, 55), 
@@ -151,7 +151,7 @@ for (i in 1:nrow(nh)) {
     geom_abline(intercept = 0, slope = 1, color = "red", linetype = "dashed") + 
     geom_smooth(data = pd, aes(x = mcm, y = etm), method = "lm", 
                 se = FALSE) + 
-    geom_point(data = pd, aes(x = mcm, y = etm)) + 
+    geom_point(data = pd, aes(x = mcm, y = etm), shape = 1) + 
     scale_x_continuous(expand = c(0, 0), limits = c(5, 40), 
                        breaks = seq(5, 40, by = 5)) + 
     scale_y_continuous(expand = c(0, 0), limits = c(5, 40), 

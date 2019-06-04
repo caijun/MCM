@@ -4,6 +4,9 @@ source("R/segment.R")
 
 load("output/Japan_Pref_Epi_Params.rda")
 
+library(tidyverse)
+library(glue)
+
 pref <- "Okinawa"
 # pref <- "Tokyo"
 s <- "2012/2013"

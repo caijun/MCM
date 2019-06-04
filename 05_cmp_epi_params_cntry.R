@@ -137,7 +137,7 @@ p4 <- ggplot(pref.flu.sentinel, aes(weekending, flu.sentinel)) +
 print(p4)
 
 library(cowplot)
-pdf("figs/overlap_epi_params_timings_with_ts.pdf", width = 8, height = 6)
+pdf("figs/overlap_epi_timings_with_ts.pdf", width = 8, height = 6)
 p <- plot_grid(p1, p2, p3, p4, align = "hv", ncol = 2)
 print(p)
 dev.off()
