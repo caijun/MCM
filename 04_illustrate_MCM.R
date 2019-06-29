@@ -62,8 +62,7 @@ curvature.plot <- function(i, r = 5) {
                  arrow = arrow(length = unit(0.02, "npc")), color = "black") + 
     geom_point(data = tp, aes(x = tp_x, y = tp_y), shape = 1, color = "blue") + 
     geom_text(aes(x = 50, y = 30, label = TeX(glue("Current week: {i}"), output = "character")), parse = TRUE) + 
-    # geom_text(aes(x = 50, y = 30, label = TeX(glue("Tangent week: {format(round(circle$tp_x, 1), nsmall = 1)}"), output = "character")), parse = TRUE) + 
-    geom_text(aes(x = 50, y = 28, label = TeX(glue("r = {round(circle$r, 2)}"), output = "character")), parse = TRUE) + 
+    geom_text(aes(x = 50, y = 28, label = TeX(glue("R = {round(circle$r, 2)}"), output = "character")), parse = TRUE) + 
     geom_text(aes(x = 50, y = 26, label = TeX(glue("$\\theta$ = {round(circle$theta, 2)}$\\degree$"), output = "character")), parse = TRUE) + 
     coord_fixed() + 
     scale_x_continuous(limits = c(-5, 60), breaks = seq(0, 60, by = 10)) +
@@ -150,7 +149,7 @@ p <- ggplot() +
   
   geom_text(aes(x = 50, y = 30, label = TeX(glue("Current week: {i}"), output = "character")), parse = TRUE) + 
   # geom_text(aes(x = 50, y = 30, label = TeX(glue("Tangent week: {format(round(circle$tp_x, 1), nsmall = 1)}"), output = "character")), parse = TRUE) + 
-  geom_text(aes(x = 50, y = 28, label = TeX(glue("r = {round(circle$r, 2)}"), output = "character")), parse = TRUE) + 
+  geom_text(aes(x = 50, y = 28, label = TeX(glue("R = {round(circle$r, 2)}"), output = "character")), parse = TRUE) + 
   geom_text(aes(x = 50, y = 26, label = TeX(glue("$\\theta$ = {round(circle$theta, 2)}$\\degree$"), output = "character")), parse = TRUE) + 
   coord_fixed() + 
   scale_x_continuous(limits = c(-5, 60), breaks = seq(0, 60, by = 10)) +
