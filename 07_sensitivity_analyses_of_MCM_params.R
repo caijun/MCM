@@ -60,7 +60,7 @@ for (i in 1:nrow(nh)) {
     scale_y_continuous(expand = c(0, 0), limits = c(0, 30), 
                        breaks = seq(0, 30, by = 5)) + 
     labs(x = "MCM", y = "ETM", 
-         title = TeX(glue("$\\mathit{{n}}$ = {ni}, $\\mathit{{h}}$ = {format(hi, nsmall = 1)}"))) + 
+         title = TeX(glue("$\\mathit{{m}}$ = {ni}, $\\mathit{{h}}$ = {format(hi, nsmall = 1)}"))) + 
     theme_classic() +  
     theme(axis.line = element_blank(), 
           panel.border = element_rect(color = "black", size = 1, fill = NA), 
@@ -109,7 +109,7 @@ for (i in 1:nrow(nh)) {
     scale_y_continuous(expand = c(0, 0), limits = c(25, 55), 
                        breaks = seq(25, 55, by = 5)) + 
     labs(x = "MCM", y = "ETM", 
-         title = TeX(glue("$\\mathit{{n}}$ = {ni}, $\\mathit{{h}}$ = {format(hi, nsmall = 1)}"))) + 
+         title = TeX(glue("$\\mathit{{m}}$ = {ni}, $\\mathit{{h}}$ = {format(hi, nsmall = 1)}"))) + 
     theme_classic() +  
     theme(axis.line = element_blank(), 
           panel.border = element_rect(color = "black", size = 1, fill = NA), 
@@ -157,7 +157,7 @@ for (i in 1:nrow(nh)) {
     scale_y_continuous(expand = c(0, 0), limits = c(5, 40), 
                        breaks = seq(5, 40, by = 5)) + 
     labs(x = "MCM", y = "ETM", 
-         title = TeX(glue("$\\mathit{{n}}$ = {ni}, $\\mathit{{h}}$ = {format(hi, nsmall = 1)}"))) + 
+         title = TeX(glue("$\\mathit{{m}}$ = {ni}, $\\mathit{{h}}$ = {format(hi, nsmall = 1)}"))) + 
     theme_classic() +  
     theme(axis.line = element_blank(), 
           panel.border = element_rect(color = "black", size = 1, fill = NA), 
