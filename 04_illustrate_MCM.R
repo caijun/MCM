@@ -20,6 +20,10 @@ library(ggplot2)
 library(ggforce)
 library(latex2exp)
 library(glue)
+library(showtext)
+
+showtext_auto()
+font_add('SimSun', regular = '~/Library/Fonts/SimSun.ttf')
 
 # curvature plot for given week number i
 curvature.plot <- function(i, r = 5) {
@@ -61,17 +65,21 @@ curvature.plot <- function(i, r = 5) {
     geom_segment(data = hv, aes(x = x, y = y, xend = xend, yend = yend), 
                  arrow = arrow(length = unit(0.02, "npc")), color = "black") + 
     geom_point(data = tp, aes(x = tp_x, y = tp_y), shape = 1, color = "blue") + 
-    geom_text(aes(x = 50, y = 30, label = TeX(glue("Current week: {i}"), output = "character")), parse = TRUE) + 
+    # geom_text(aes(x = 50, y = 30, label = TeX(glue("Current week: {i}"), output = "character")), parse = TRUE) + 
+    geom_text(aes(x = 50, y = 30, label = TeX(glue("当前周: {i}"), output = "character"), 
+                  family = "SimSun"), parse = TRUE) + 
     geom_text(aes(x = 50, y = 28, label = TeX(glue("R = {round(circle$r, 2)}"), output = "character")), parse = TRUE) + 
     geom_text(aes(x = 50, y = 26, label = TeX(glue("$\\theta$ = {round(circle$theta, 2)}$\\degree$"), output = "character")), parse = TRUE) + 
     coord_fixed() + 
     scale_x_continuous(limits = c(-5, 60), breaks = seq(0, 60, by = 10)) +
     scale_y_continuous(limits = c(-5, max(ec$y))) +
-    labs(x = "Week number", y = "Number of influenza cases per sentinel", 
-         title = glue("{pref}, {s}")) +  
-    # theme_bw()
+    # labs(x = "Week number", y = "Number of influenza cases per sentinel", 
+    #      title = glue("{pref}, {s}")) +   
+    labs(x = "自2012-W34以来周数", y = "平均每个哨点报告病例数", 
+         title = glue("冲绳县, 2012/2013")) + 
     theme_classic() + 
-    theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+    theme(plot.title = element_text(hjust = 0.5, face = "bold", family = "SimSun"), 
+          axis.title = element_text(family = "SimSun"))
   print(p)
 }
 
@@ -147,17 +155,22 @@ p <- ggplot() +
   geom_curve(data = arc.df, aes(x = x, y = y, xend = xend, yend = yend), color = "blue") + 
   geom_text(aes(x = nv$x + 0.2, y = nv$y + 1.2, label = TeX("$\\theta$", output = "character")), parse = TRUE) + 
   
-  geom_text(aes(x = 50, y = 30, label = TeX(glue("Current week: {i}"), output = "character")), parse = TRUE) + 
+  # geom_text(aes(x = 50, y = 30, label = TeX(glue("Current week: {i}"), output = "character")), parse = TRUE) + 
   # geom_text(aes(x = 50, y = 30, label = TeX(glue("Tangent week: {format(round(circle$tp_x, 1), nsmall = 1)}"), output = "character")), parse = TRUE) + 
+  geom_text(aes(x = 50, y = 30, label = TeX(glue("当前周: {i}"), output = "character"), 
+                family = "SimSun"), parse = TRUE) + 
   geom_text(aes(x = 50, y = 28, label = TeX(glue("R = {round(circle$r, 2)}"), output = "character")), parse = TRUE) + 
   geom_text(aes(x = 50, y = 26, label = TeX(glue("$\\theta$ = {round(circle$theta, 2)}$\\degree$"), output = "character")), parse = TRUE) + 
   coord_fixed() + 
   scale_x_continuous(limits = c(-5, 60), breaks = seq(0, 60, by = 10)) +
   scale_y_continuous(limits = c(-5, max(ec$y))) +
-  labs(x = "Week number", y = "Number of influenza cases per sentinel", 
-       title = glue("{pref}, {s}")) +  
+  # labs(x = "Week number", y = "Number of influenza cases per sentinel", 
+  #      title = glue("{pref}, {s}")) + 
+  labs(x = "自2012-W34以来周数", y = "平均每个哨点报告病例数", 
+       title = glue("冲绳县, 2012/2013")) + 
   theme_classic() + 
-  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+  theme(plot.title = element_text(hjust = 0.5, face = "bold", family = "SimSun"), 
+        axis.title = element_text(family = "SimSun"))
 print(p)
 dev.off()
 
@@ -172,14 +185,16 @@ p1 <- ggplot(data = pd, aes(t, y)) +
   geom_line() + 
   geom_point(shape = 1) + 
   scale_x_continuous(limits = c(0, 53), breaks = seq(0, 55, by = 5), expand = c(0, 0)) + 
-  labs(x = "", y = "Number of influenza\n cases per sentinel", tag = "(a)") + 
+  # labs(x = "", y = "Number of influenza\n cases per sentinel", tag = "(a)") + 
+  labs(x = "", y = "平均每个哨点病例数", tag = "(a)") + 
   theme_classic() + 
   theme(axis.line = element_blank(), 
         panel.border = element_rect(color = "black", size = 1, fill = NA), 
         axis.text.x = element_blank(), 
         plot.tag.position = c(0.14, 0.9), 
         plot.tag = element_text(face = "bold"), 
-        plot.margin = margin(t = 0, b = -0.1, l = 0, r = 0.25, unit = "cm"))
+        plot.margin = margin(t = 0, b = -0.1, l = 0, r = 0.25, unit = "cm"), 
+        axis.title = element_text(family = "SimSun"))
 
 p2 <- ggplot(data = pd, aes(t, curvature)) + 
   geom_vline(xintercept = epi.params$epi.peak, color = "gray", linetype = "dashed") + 
@@ -188,14 +203,16 @@ p2 <- ggplot(data = pd, aes(t, curvature)) +
   geom_line() + 
   geom_point(shape = 1) + 
   scale_x_continuous(limits = c(0, 53), breaks = seq(0, 55, by = 5), expand = c(0, 0)) + 
-  labs(x = "", y = "Curvature", tag = "(b)") + 
+  # labs(x = "", y = "Curvature", tag = "(b)") + 
+  labs(x = "", y = "原始曲率", tag = "(b)") + 
   theme_classic() + 
   theme(axis.line = element_blank(), 
         panel.border = element_rect(color = "black", size = 1, fill = NA), 
         axis.text.x = element_blank(), 
         plot.tag.position = c(0.14, 0.9), 
         plot.tag = element_text(face = "bold"), 
-        plot.margin = margin(t = -0.1, b = -0.1, l = 0, r = 0.25, unit = "cm"))
+        plot.margin = margin(t = -0.1, b = -0.1, l = 0, r = 0.25, unit = "cm"), 
+        axis.title = element_text(family = "SimSun"))
 
 p3 <- ggplot(data = pd, aes(t, theta)) + 
   geom_rect(aes(xmin = 0, xmax = epi.params$epi.peak, ymin = 0, ymax = 90), 
@@ -231,13 +248,15 @@ p4 <- ggplot(data = pd, aes(t, new.curvature)) +
   geom_vline(xintercept = epi.params$epi.end, color = "blue", linetype = "dashed") + 
   geom_point(data = pt.df, aes(x, y), shape = 19, color = "blue") + 
   scale_x_continuous(limits = c(0, 53), breaks = seq(0, 55, by = 5), expand = c(0, 0)) + 
-  labs(x = "Week number", y = "Filtered curvature", tag = "(d)") + 
+  # labs(x = "Week number", y = "Filtered curvature", tag = "(d)") + 
+  labs(x = "自2012-W34以来周数", y = "筛选后曲率", tag = "(d)") + 
   theme_classic() + 
   theme(axis.line = element_blank(), 
         panel.border = element_rect(color = "black", size = 1, fill = NA), 
         plot.tag.position = c(0.14, 0.9), 
         plot.tag = element_text(face = "bold"), 
-        plot.margin = margin(t = -0.1, b = 0, l = 0, r = 0.25, unit = "cm"))
+        plot.margin = margin(t = -0.1, b = 0, l = 0, r = 0.25, unit = "cm"), 
+        axis.title = element_text(family = "SimSun"))
 
 library(patchwork)
 pcom <- p1 + p2 + p3 + p4 + plot_layout(ncol = 1)
@@ -246,8 +265,9 @@ pgrob <- patchworkGrob(pcom)
 library(cowplot)
 # add the title
 title <- ggdraw() + 
-  draw_label(glue("{pref}, {s}"), fontface = 'bold', x = 0.55)
-p <- plot_grid(title, NULL, pgrob, ncol = 1, rel_heights = c(0.05, -0.02, 1))
+  draw_label(glue("冲绳县, 2012/2013"), fontface = 'bold', x = 0.55, fontfamily = "SimSun")
+  # draw_label(glue("{pref}, {s}"), fontface = 'bold', x = 0.55)
+p <- plot_grid(title, NULL, pgrob, ncol = 1, rel_heights = c(0.05, -0.01, 1))
 
 pdf("figs/MCM_illustration.pdf", width = 6, height = 6)
 print(p)

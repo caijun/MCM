@@ -50,6 +50,10 @@ t2 <- half2$t[!idx]
 y2 <- half2$y.hat[!idx]
 broken.line2 <- data.frame(t = c(t1, psi2, t2), y = c(y1, y.psi2, y2))
 
+library(showtext)
+
+showtext_auto()
+font_add('SimSun', regular = '~/Library/Fonts/SimSun.ttf')
 
 p <- ggplot(data = ec, aes(t, y)) + 
   geom_vline(xintercept = epi.params$epi.peak, color = "gray", linetype = "dashed") + 
@@ -62,10 +66,13 @@ p <- ggplot(data = ec, aes(t, y)) +
   geom_line(data = broken.line2, aes(t, y), color = "red", linetype = "dashed") + 
   geom_point(data = subset(broken.line2, t == psi2), aes(t, y), color = "red") + 
   scale_x_continuous(limits = c(0, 53), breaks = seq(0, 55, by = 5), expand = c(0, 0)) + 
-  labs(x = "Week number", y = "Number of influenza\n cases per sentinel", 
-       title = glue("{pref}, {s}")) + 
+  # labs(x = "Week number", y = "Number of influenza\n cases per sentinel", 
+  #      title = glue("{pref}, {s}")) + 
+  labs(x = "自2012-W34以来周数", y = "平均每个哨点报告病例数", 
+       title = glue("冲绳县, 2012/2013")) + 
   theme_classic() + 
-  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+  theme(plot.title = element_text(hjust = 0.5, face = "bold", family = "SimSun"), 
+        axis.title = element_text(family = "SimSun"))
 
 pdf("figs/SRM_illustration.pdf", width = 6, height = 3)
 print(p)

@@ -5,6 +5,10 @@ load("output/Japan_Pref_Epi_Params.rda")
 
 library(tidyverse)
 library(glue)
+library(showtext)
+
+showtext_auto()
+font_add('SimSun', regular = '~/Library/Fonts/SimSun.ttf')
 
 # plot ts of weekly number of cases per sentinel with epidemic parameters for 
 # each prefecture
@@ -140,10 +144,13 @@ p4 <- ggplot(pref.flu.sentinel, aes(weekending, flu.sentinel)) +
   geom_vline(xintercept = srm$epi.start.date, color = "blue3") + 
   geom_vline(xintercept = mcm$epi.start.date, color = "yellow3") + 
   scale_x_date(date_breaks = "1 year", date_labels = "%Y") + 
-  labs(title = "", x = "Weekending date", 
+  # labs(title = "", x = "Weekending date", 
+  #      y = "Number of ILI cases per sentinel", tag = "(d)") + 
+  labs(title = "", x = "周结束日期", 
        y = "Number of ILI cases per sentinel", tag = "(d)") + 
   theme_classic() + 
   theme(plot.title = element_text(hjust = 0.5, face = "bold"), 
+        axis.title.x = element_text(family = "SimSun", size = 12), 
         axis.title.y = element_blank(), 
         plot.tag.position = c(0.96, 0.8), 
         plot.tag = element_text(face = "bold"), 
@@ -159,7 +166,8 @@ pgrob <- patchworkGrob(pcom)
 library(cowplot)
 # add common y axis label
 ylab <- ggdraw() + 
-  draw_label("Number of ILI cases per sentinel", angle = 90)
+  draw_label("平均每个哨点报告病例数", angle = 90, fontfamily = "SimSun", size = 12)
+  # draw_label("Number of ILI cases per sentinel", angle = 90)
 
 pdf("figs/overlap_epi_onset_with_ts.pdf", width = 6, height = 7)
 p <- plot_grid(ylab, NULL, pgrob, nrow = 1, rel_widths = c(0.1, -0.03, 1.5))
@@ -269,10 +277,13 @@ p4 <- ggplot(pref.flu.sentinel, aes(weekending, flu.sentinel)) +
   geom_vline(xintercept = srm$epi.end.date, color = "blue3") +
   geom_vline(xintercept = mcm$epi.end.date, color = "yellow3") +
   scale_x_date(date_breaks = "1 year", date_labels = "%Y") + 
-  labs(title = "", x = "Weekending date", 
+  # labs(title = "", x = "Weekending date", 
+  #      y = "Number of ILI cases per sentinel", tag = "(d)") + 
+  labs(title = "", x = "周结束日期", 
        y = "Number of ILI cases per sentinel", tag = "(d)") + 
   theme_classic() + 
   theme(plot.title = element_text(hjust = 0.5, face = "bold"), 
+        axis.title.x = element_text(family = "SimSun", size = 12), 
         axis.title.y = element_blank(), 
         plot.tag.position = c(0.96, 0.8), 
         plot.tag = element_text(face = "bold"), 
@@ -288,7 +299,8 @@ pgrob <- patchworkGrob(pcom)
 library(cowplot)
 # add common y axis label
 ylab <- ggdraw() + 
-  draw_label("Number of ILI cases per sentinel", angle = 90)
+  draw_label("平均每个哨点报告病例数", angle = 90, fontfamily = "SimSun", size = 12)
+  # draw_label("Number of ILI cases per sentinel", angle = 90)
 
 pdf("figs/overlap_epi_end_with_ts.pdf", width = 6, height = 7)
 p <- plot_grid(ylab, NULL, pgrob, nrow = 1, rel_widths = c(0.1, -0.03, 1.5))

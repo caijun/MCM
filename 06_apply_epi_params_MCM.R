@@ -1,6 +1,7 @@
 rm(list = ls())
 
 load("output/Japan_Pref_Epi_Params.rda")
+load("output/Japan_Pref_Attr.rda")
 
 library(tidyverse)
 
@@ -47,7 +48,6 @@ cor.test(mean.epi.params$mean.epi.start.num, mean.epi.params$mean.epi.end.num,
 # write prefecture-specific mean(sd) of epidemic onset intensity and epidemic 
 # end intensity into csv
 # order prefecture by increasing id
-pref.attr <- read.csv("data/Japan_Prefecture.csv", stringsAsFactors = FALSE)
 res <- mean.epi.params %>% 
   select(Prefecture, mean.epi.start.num, sd.epi.start.num, mean.epi.end.num, 
          sd.epi.end.num) %>% 
@@ -55,24 +55,37 @@ res <- mean.epi.params %>%
                                         " (", format(sd.epi.start.num, nsmall = 1), ")"), 
          mean.sd.epi.end.num = paste0(format(mean.epi.end.num, nsmall = 1), 
                                       " (", format(sd.epi.end.num, nsmall = 1), ")")) %>%
-  left_join(pref.attr[c("ID", "Prefecture")], by = "Prefecture") %>%
-  select(ID, Prefecture, mean.sd.epi.start.num, mean.sd.epi.end.num) %>%
+  left_join(pref.attr[c("ID", "Prefecture", "Pref.CN")], by = "Prefecture") %>%
+  select(ID, Prefecture, Pref.CN, mean.sd.epi.start.num, mean.sd.epi.end.num) %>%
   arrange(ID)
 write.csv(res, file = "output/pref_epi_thresholds.csv", row.names = F, 
           quote = F)
 
 # order prefectures by increasing mean epidemic onset intensity
-mean.epi.params0 <- mean.epi.params0 %>%
+mean.epi.params0 <- mean.epi.params0 %>% 
+  left_join(pref.attr[c("Prefecture", "Pref.CN")], by = "Prefecture") %>% 
   arrange(mean.epi.start.num)
 
 mean.epi.params <- mean.epi.params %>% 
+  left_join(pref.attr[c("Prefecture", "Pref.CN")], by = "Prefecture") %>% 
   mutate(Prefecture = factor(Prefecture, 
-                             levels = rev(as.character(mean.epi.params0$Prefecture))))
+                             levels = rev(as.character(mean.epi.params0$Prefecture))), 
+         Pref.CN = factor(Pref.CN, levels = rev(as.character(mean.epi.params0$Pref.CN))))
+
+library(showtext)
+
+showtext_auto()
+font_add('SimSun', regular = '~/Library/Fonts/SimSun.ttf')
 
 p1 <- ggplot(data = mean.epi.params) + 
-  geom_bar(aes(x = Prefecture, y = mean.epi.start.num, fill = mean.epi.start), 
+  # geom_bar(aes(x = Prefecture, y = mean.epi.start.num, fill = mean.epi.start), 
+  #          stat = 'identity', width = 1, color = "gray30") + 
+  geom_bar(aes(x = Pref.CN, y = mean.epi.start.num, fill = mean.epi.start), 
            stat = 'identity', width = 1, color = "gray30") + 
-  geom_text(aes(x = Prefecture, y = mean.epi.start.num, 
+  # geom_text(aes(x = Prefecture, y = mean.epi.start.num, 
+  #               label = format(mean.epi.start.num, nsmall = 1), hjust = 1.1), color = "gray50", 
+  #           position = position_dodge(width = 1)) + 
+  geom_text(aes(x = Pref.CN, y = mean.epi.start.num, 
                 label = format(mean.epi.start.num, nsmall = 1), hjust = 1.1), color = "gray50", 
             position = position_dodge(width = 1)) + 
   geom_hline(yintercept = 1.0, color = "red", linetype = "dashed") + 
@@ -81,7 +94,8 @@ p1 <- ggplot(data = mean.epi.params) +
                      breaks = seq(0, 1.5, by = 0.5)) + 
   scale_fill_gradient(limits = c(12, 17), breaks = seq(12, 17, by = 1),
                       low = "white", high = "red",
-                      guide = guide_colorbar(title = "Mean epidemic onset\n (weeks)",
+                      guide = guide_colorbar(title = "平均流行开始时间(周)", 
+                                             # title = "Mean epidemic onset\n (weeks)",
                                              title.position = "top",
                                              title.hjust = 0.5,
                                              barwidth = 8, 
@@ -89,10 +103,14 @@ p1 <- ggplot(data = mean.epi.params) +
                                              ticks.colour = "black",
                                              frame.colour = "black",
                                              direction = "horizontal")) +
-  labs(y = "Epidemic onset threshold") + 
+  # labs(y = "Epidemic onset threshold") + 
+  labs(x = "都道府县", y = "流行开始阈值") + 
   coord_flip() + 
   theme_classic(base_size = 12) + 
-  theme(legend.position = c(0.7, 0.8))
+  theme(legend.position = c(0.7, 0.8), 
+        axis.title = element_text(family = "SimSun"), 
+        legend.title = element_text(family = "SimSun"), 
+        axis.text.y = element_text(family = "SimSun"))
 
 # order prefectures by increasing mean epidemic ending intensity
 mean.epi.params0 <- mean.epi.params0 %>%
@@ -100,12 +118,18 @@ mean.epi.params0 <- mean.epi.params0 %>%
 
 mean.epi.params <- mean.epi.params %>% 
   mutate(Prefecture = factor(Prefecture, 
-                             levels = rev(as.character(mean.epi.params0$Prefecture))))
+                             levels = rev(as.character(mean.epi.params0$Prefecture))), 
+         Pref.CN = factor(Pref.CN, levels = rev(as.character(mean.epi.params0$Pref.CN))))
 
 p2 <- ggplot(data = mean.epi.params) + 
-  geom_bar(aes(x =  Prefecture, y = mean.epi.end.num, fill = mean.epi.end), 
+  # geom_bar(aes(x =  Prefecture, y = mean.epi.end.num, fill = mean.epi.end), 
+  #          stat = 'identity', width = 1, color = "gray30") + 
+  geom_bar(aes(x =  Pref.CN, y = mean.epi.end.num, fill = mean.epi.end), 
            stat = 'identity', width = 1, color = "gray30") + 
-  geom_text(aes(x = Prefecture, y = mean.epi.end.num, 
+  # geom_text(aes(x = Prefecture, y = mean.epi.end.num, 
+  #               label = format(mean.epi.end.num, nsmall = 1), hjust = 1.1), color = "gray50", 
+  #           position = position_dodge(width = 1)) + 
+  geom_text(aes(x = Pref.CN, y = mean.epi.end.num, 
                 label = format(mean.epi.end.num, nsmall = 1), hjust = 1.1), color = "gray50", 
             position = position_dodge(width = 1)) + 
   geom_hline(yintercept = 1.0, color = "red", linetype = "dashed") + 
@@ -114,7 +138,8 @@ p2 <- ggplot(data = mean.epi.params) +
                      breaks = seq(0, 3, by = 0.5)) + 
   scale_fill_gradient(limits = c(31, 43), breaks = seq(31, 43, by = 2), 
                       low = "white", high = "red", 
-                      guide = guide_colorbar(title = "Mean epidemic end\n (weeks)",
+                      guide = guide_colorbar(title = "平均结束时间(周)", 
+                                             # title = "Mean epidemic end\n (weeks)",
                                              title.position = "top", 
                                              title.hjust = 0.5, 
                                              barwidth = 8, 
@@ -122,10 +147,14 @@ p2 <- ggplot(data = mean.epi.params) +
                                              ticks.colour = "black",
                                              frame.colour = "black", 
                                              direction = "horizontal")) + 
-  labs(y = "Epidemic ending threshold") + 
+  # labs(y = "Epidemic ending threshold") + 
+  labs(x = "都道府县", y = "流行结束阈值") + 
   coord_flip() + 
   theme_classic(base_size = 12) + 
-  theme(legend.position = c(0.7, 0.8))
+  theme(legend.position = c(0.7, 0.8), 
+        axis.title = element_text(family = "SimSun"), 
+        legend.title = element_text(family = "SimSun"), 
+        axis.text.y = element_text(family = "SimSun"))
 
 pdf(file = "figs/pref_epi_thresholds.pdf", width = 10, height = 7)
 library(cowplot)

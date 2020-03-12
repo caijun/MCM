@@ -20,6 +20,11 @@ idx.end <- floor(epi.params$epi.end)
 cw.end <- dat[idx.end:(idx.end - 2), ]
 
 library(glue)
+library(showtext)
+
+showtext_auto()
+font_add('SimSun', regular = '~/Library/Fonts/SimSun.ttf')
+
 p <- ggplot(data = dat, aes(t, y)) + 
   geom_vline(xintercept = epi.params$epi.peak, color = "gray", linetype = "dashed") + 
   geom_vline(xintercept = epi.params$epi.start, color = "blue", linetype = "dashed") + 
@@ -32,10 +37,13 @@ p <- ggplot(data = dat, aes(t, y)) +
   geom_point(data = cw.end, aes(t, y), shape = 1, color = "red") + 
   geom_point(data = subset(cw.end, t == idx.end), aes(t, y), color = "red") + 
   scale_x_continuous(limits = c(0, 53), breaks = seq(0, 55, by = 5), expand = c(0, 0)) + 
-  labs(x = "Week number", y = "Number of influenza\n cases per sentinel", 
-       title = glue("{pref}, {s}")) + 
+  # labs(x = "Week number", y = "Number of influenza\n cases per sentinel", 
+  #      title = glue("{pref}, {s}")) + 
+  labs(x = "自2012-W34以来周数", y = "平均每个哨点报告病例数", 
+       title = glue("东京都, 2012/2013")) + 
   theme_classic() + 
-  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+  theme(plot.title = element_text(hjust = 0.5, face = "bold", family = "SimSun"), 
+        axis.title = element_text(family = "SimSun"))
 
 pdf("figs/ETM_illustration.pdf", width = 6, height = 3)
 print(p)

@@ -162,39 +162,57 @@ epi.params <- rbind(epi.params.etm1, epi.params.srm1,
 
 library(ggsci)
 library(cowplot)
+library(showtext)
+
+showtext_auto()
+font_add('SimSun', regular = '~/Library/Fonts/SimSun.ttf')
+
 p1 <- ggplot(epi.params, aes(season, epi.start, fill = method)) + 
   geom_boxplot(position = position_dodge(0.8), width = 0.6) + 
-  labs(x = "Season", y = "Epidemic onset (weeks)") + 
-  scale_fill_npg(name = "Method") + 
-  theme_classic()
+  # labs(x = "Season", y = "Epidemic onset (weeks)") + 
+  labs(x = "流感季", y = "流行开始时间(周)") + 
+  # scale_fill_npg(name = "Method") + 
+  scale_fill_npg(name = "方法", labels = c("经验阈值法", "最大曲率法", "分段回归法")) + 
+  theme_classic() + 
+  theme(axis.title = element_text(family = "SimSun"), 
+        legend.title = element_text(family = "SimSun"), 
+        legend.text = element_text(family = "SimSun"))
 
 p2 <- ggplot(epi.params, aes(season, epi.end, fill = method)) + 
   geom_boxplot(position = position_dodge(0.8), width = 0.6) + 
-  labs(x = "Season", y = "Epidemic end (weeks)") + 
+  # labs(x = "Season", y = "Epidemic end (weeks)") + 
+  labs(x = "流感季", y = "流行结束时间(周)") + 
   scale_fill_npg() + 
   theme_classic() + 
-  theme(legend.position = "none")
+  theme(legend.position = "none", 
+        axis.title = element_text(family = "SimSun"))
 
 p3 <- ggplot(epi.params, aes(season, epi.duration, fill = method)) + 
   geom_boxplot(position = position_dodge(0.8), width = 0.6) + 
-  labs(x = "Season", y = "Epidemic duration (weeks)") + 
+  # labs(x = "Season", y = "Epidemic duration (weeks)") + 
+  labs(x = "流感季", y = "流行持续时间(周)") + 
   scale_fill_npg() + 
   theme_classic() + 
-  theme(legend.position = "none")
+  theme(legend.position = "none", 
+        axis.title = element_text(family = "SimSun"))
 
 p4 <- ggplot(epi.params, aes(season, epi.start.num, fill = method)) + 
   geom_boxplot(position = position_dodge(0.8), width = 0.6) + 
-  labs(x = "Season", y = "Epidemic onset intensity") + 
+  # labs(x = "Season", y = "Epidemic onset intensity") + 
+  labs(x = "流感季", y = "流行开始强度(周)") + 
   scale_fill_npg() + 
   theme_classic() + 
-  theme(legend.position = "none")
+  theme(legend.position = "none", 
+        axis.title = element_text(family = "SimSun"))
 
 p5 <- ggplot(epi.params, aes(season, epi.end.num, fill = method)) + 
   geom_boxplot(position = position_dodge(0.8), width = 0.6) + 
-  labs(x = "Season", y = "Epidemic ending intensity") + 
+  # labs(x = "Season", y = "Epidemic ending intensity") + 
+  labs(x = "流感季", y = "流行结束强度(周)") + 
   scale_fill_npg() + 
   theme_classic() + 
-  theme(legend.position = "none")
+  theme(legend.position = "none", 
+        axis.title = element_text(family = "SimSun"))
 
 # arrange the three plots in a single row
 prow1 <- plot_grid(p1 + theme(legend.position = "none"), p2, p3, nrow = 1)
@@ -243,12 +261,15 @@ p1 <- ggplot() +
                      breaks = seq(0, 30, by = 5)) + 
   scale_y_continuous(expand = c(0, 0), limits = c(0, 30), 
                      breaks = seq(0, 30, by = 5)) + 
-  labs(x = "SRM", y = "ETM", 
-       title = "Epidemic onset") + 
+  # labs(x = "SRM", y = "ETM", 
+  #      title = "Epidemic onset") + 
+  labs(x = "分段回归法", y = "经验阈值法", 
+       title = "流行开始时间") + 
   theme_classic() +  
   theme(axis.line = element_blank(), 
         panel.border = element_rect(color = "black", size = 1, fill = NA), 
-        plot.title = element_text(hjust = 0.5, face = "bold"))
+        plot.title = element_text(hjust = 0.5, face = "bold", family = "SimSun"), 
+        axis.title = element_text(family = "SimSun"))
 p1 <- ggdraw(p1) + draw_label(TeX(glue("$\\mathit{{y}}$ = {format(round(b0, 2), nsmall = 2)} + {format(round(b1, 2), nsmall = 2)}$\\mathit{{x}}$")), 0.45, 0.8, size = 12) + 
   draw_label(TeX(glue("$R^2$ = {format(round(r2, 2), nsmall = 2)}, $$\\mathit{{p}}$ < 0.001")), 
              0.45, 0.74, size = 12)
@@ -277,12 +298,15 @@ p2 <- ggplot() +
                      breaks = seq(0, 30, by = 5)) + 
   scale_y_continuous(expand = c(0, 0), limits = c(0, 30), 
                      breaks = seq(0, 30, by = 5)) + 
-  labs(x = "MCM", y = "ETM", 
-       title = "Epidemic onset") + 
+  # labs(x = "MCM", y = "ETM", 
+  #      title = "Epidemic onset") + 
+  labs(x = "最大曲率法", y = "经验阈值法", 
+       title = "流行开始时间") + 
   theme_classic() +  
   theme(axis.line = element_blank(), 
         panel.border = element_rect(color = "black", size = 1, fill = NA), 
-        plot.title = element_text(hjust = 0.5, face = "bold"))
+        plot.title = element_text(hjust = 0.5, face = "bold", family = "SimSun"), 
+        axis.title = element_text(family = "SimSun"))
 p2 <- ggdraw(p2) + draw_label(TeX(glue("$\\mathit{{y}}$ = {format(round(b0, 2), nsmall = 2)} + {format(round(b1, 2), nsmall = 2)}$\\mathit{{x}}$")), 0.45, 0.8, size = 12) + 
   draw_label(TeX(glue("$R^2$ = {format(round(r2, 2), nsmall = 2)}, $$\\mathit{{p}}$ < 0.001")), 
              0.45, 0.74, size = 12)
@@ -311,12 +335,15 @@ p3 <- ggplot() +
                      breaks = seq(25, 55, by = 5)) +
   scale_y_continuous(expand = c(0, 0), limits = c(24, 51),
                      breaks = seq(25, 55, by = 5)) +
-  labs(x = "SRM", y = "ETM", 
-       title = "Epidemic end") + 
+  # labs(x = "SRM", y = "ETM", 
+  #      title = "Epidemic end") + 
+  labs(x = "分段回归法", y = "经验阈值法", 
+       title = "流行结束时间") + 
   theme_classic() +  
   theme(axis.line = element_blank(), 
         panel.border = element_rect(color = "black", size = 1, fill = NA), 
-        plot.title = element_text(hjust = 0.5, face = "bold"))
+        plot.title = element_text(hjust = 0.5, face = "bold", family = "SimSun"), 
+        axis.title = element_text(family = "SimSun"))
 p3 <- ggdraw(p3) + draw_label(TeX(glue("$\\mathit{{y}}$ = {format(round(b0, 2), nsmall = 2)} + {format(round(b1, 2), nsmall = 2)}$\\mathit{{x}}$")), 0.65, 0.30, size = 12) + 
   draw_label(TeX(glue("$R^2$ = {format(round(r2, 2), nsmall = 2)}, $$\\mathit{{p}}$ < 0.001")), 
              0.65, 0.24, size = 12)
@@ -344,12 +371,15 @@ p4 <- ggplot() +
                      breaks = seq(25, 55, by = 5)) + 
   scale_y_continuous(expand = c(0, 0), limits = c(24, 51), 
                      breaks = seq(25, 55, by = 5)) + 
-  labs(x = "MCM", y = "ETM", 
-       title = "Epidemic end") + 
+  # labs(x = "MCM", y = "ETM", 
+  #      title = "Epidemic end") + 
+  labs(x = "最大曲率法", y = "经验阈值法", 
+       title = "流行结束时间") + 
   theme_classic() +  
   theme(axis.line = element_blank(), 
         panel.border = element_rect(color = "black", size = 1, fill = NA), 
-        plot.title = element_text(hjust = 0.5, face = "bold"))
+        plot.title = element_text(hjust = 0.5, face = "bold", family = "SimSun"), 
+        axis.title = element_text(family = "SimSun"))
 p4 <- ggdraw(p4) + draw_label(TeX(glue("$\\mathit{{y}}$ = {format(round(b0, 2), nsmall = 2)} + {format(round(b1, 2), nsmall = 2)}$\\mathit{{x}}$")), 0.65, 0.3, size = 12) + 
   draw_label(TeX(glue("$R^2$ = {format(round(r2, 2), nsmall = 2)}, $$\\mathit{{p}}$ < 0.001")), 
              0.65, 0.24, size = 12)
@@ -378,12 +408,15 @@ p5 <- ggplot() +
                      breaks = seq(5, 40, by = 5)) +
   scale_y_continuous(expand = c(0, 0), limits = c(5, 40),
                      breaks = seq(5, 40, by = 5)) +
-  labs(x = "SRM", y = "ETM", 
-       title = "Epidemic duration") + 
+  # labs(x = "SRM", y = "ETM", 
+  #      title = "Epidemic duration") + 
+  labs(x = "分段回归法", y = "经验阈值法", 
+       title = "流行持续时间") + 
   theme_classic() +  
   theme(axis.line = element_blank(), 
         panel.border = element_rect(color = "black", size = 1, fill = NA), 
-        plot.title = element_text(hjust = 0.5, face = "bold"))
+        plot.title = element_text(hjust = 0.5, face = "bold", family = "SimSun"), 
+        axis.title = element_text(family = "SimSun"))
 p5 <- ggdraw(p5) + draw_label(TeX(glue("$\\mathit{{y}}$ = {format(round(b0, 2), nsmall = 2)} - {format(abs(round(b1, 2)), nsmall = 2)}$\\mathit{{x}}$")), 0.65, 0.3, size = 12) + 
   draw_label(TeX(glue("$R^2$ < 0.01, $$\\mathit{{p}}$ = {format(round(pval, 2), nsmall = 2)}")), 
              0.65, 0.24, size = 12)
@@ -411,12 +444,15 @@ p6 <- ggplot() +
                      breaks = seq(5, 40, by = 5)) + 
   scale_y_continuous(expand = c(0, 0), limits = c(5, 40), 
                      breaks = seq(5, 40, by = 5)) + 
-  labs(x = "MCM", y = "ETM", 
-       title = "Epidemic duration") + 
+  # labs(x = "MCM", y = "ETM", 
+  #      title = "Epidemic duration") + 
+  labs(x = "最大曲率法", y = "经验阈值法", 
+       title = "流行持续时间") + 
   theme_classic() +  
   theme(axis.line = element_blank(), 
         panel.border = element_rect(color = "black", size = 1, fill = NA), 
-        plot.title = element_text(hjust = 0.5, face = "bold"))
+        plot.title = element_text(hjust = 0.5, face = "bold", family = "SimSun"), 
+        axis.title = element_text(family = "SimSun"))
 p6 <- ggdraw(p6) + draw_label(TeX(glue("$\\mathit{{y}}$ = {format(round(b0, 2), nsmall = 2)} + {format(round(b1, 2), nsmall = 2)}$\\mathit{{x}}$")), 0.65, 0.3, size = 12) + 
   draw_label(TeX(glue("$R^2$ = {format(round(r2, 2), nsmall = 2)}, $$\\mathit{{p}}$ < 0.001")), 
              0.65, 0.24, size = 12)

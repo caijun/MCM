@@ -33,6 +33,11 @@ mcm.sa <- mcm.sa %>%
 library(latex2exp)
 library(glue)
 library(cowplot)
+library(showtext)
+
+showtext_auto()
+font_add('SimSun', regular = '~/Library/Fonts/SimSun.ttf')
+
 # compare epidemic params from MCM with those from those from ETM
 # epidemic onset
 plist <- list()
@@ -59,12 +64,15 @@ for (i in 1:nrow(nh)) {
                        breaks = seq(0, 30, by = 5)) + 
     scale_y_continuous(expand = c(0, 0), limits = c(0, 30), 
                        breaks = seq(0, 30, by = 5)) + 
-    labs(x = "MCM", y = "ETM", 
+    # labs(x = "MCM", y = "ETM", 
+    #      title = TeX(glue("$\\mathit{{m}}$ = {ni}, $\\mathit{{h}}$ = {format(hi, nsmall = 1)}"))) + 
+    labs(x = "最大曲率法", y = "经验阈值法", 
          title = TeX(glue("$\\mathit{{m}}$ = {ni}, $\\mathit{{h}}$ = {format(hi, nsmall = 1)}"))) + 
     theme_classic() +  
     theme(axis.line = element_blank(), 
           panel.border = element_rect(color = "black", size = 1, fill = NA), 
-          plot.title = element_text(hjust = 0.5, face = "bold"))
+          plot.title = element_text(hjust = 0.5, face = "bold"), 
+          axis.title = element_text(family = "SimSun"))
   p <- ggdraw(p) + draw_label(TeX(glue("$\\mathit{{y}}$ = {format(round(b0, 2), nsmall = 2)} + {format(round(b1, 2), nsmall = 2)}$\\mathit{{x}}$")), 0.45, 0.8, size = 12) + 
     draw_label(TeX(glue("$R^2$ = {format(round(r2, 2), nsmall = 2)}, $$\\mathit{{p}}$ < 0.001")), 
                0.45, 0.74, size = 12)
@@ -78,7 +86,9 @@ outfile <- glue("figs/sensitivity_analyses/sa_epi_start.pdf")
 pdf(outfile, width = 9, height = 12)
 p <- plot_grid(plotlist = plist, align = "hv", ncol = 3)
 # now add the title
-title <- ggdraw() + draw_label("Epidemic onset", fontface = 'bold')
+title <- ggdraw() + 
+  draw_label("流行开始时间", fontface = 'bold', fontfamily = "SimSun")
+  # draw_label("Epidemic onset", fontface = 'bold')
 plot_grid(title, p, ncol = 1, rel_heights = c(0.04, 1)) # rel_heights values control title margins
 dev.off()
 
@@ -108,12 +118,15 @@ for (i in 1:nrow(nh)) {
                        breaks = seq(25, 55, by = 5)) + 
     scale_y_continuous(expand = c(0, 0), limits = c(25, 55), 
                        breaks = seq(25, 55, by = 5)) + 
-    labs(x = "MCM", y = "ETM", 
+    # labs(x = "MCM", y = "ETM", 
+    #      title = TeX(glue("$\\mathit{{m}}$ = {ni}, $\\mathit{{h}}$ = {format(hi, nsmall = 1)}"))) + 
+    labs(x = "最大曲率法", y = "经验阈值法", 
          title = TeX(glue("$\\mathit{{m}}$ = {ni}, $\\mathit{{h}}$ = {format(hi, nsmall = 1)}"))) + 
     theme_classic() +  
     theme(axis.line = element_blank(), 
           panel.border = element_rect(color = "black", size = 1, fill = NA), 
-          plot.title = element_text(hjust = 0.5, face = "bold"))
+          plot.title = element_text(hjust = 0.5, face = "bold"), 
+          axis.title = element_text(family = "SimSun"))
   p <- ggdraw(p) + draw_label(TeX(glue("$\\mathit{{y}}$ = {format(round(b0, 2), nsmall = 2)} + {format(round(b1, 2), nsmall = 2)}$\\mathit{{x}}$")), 0.67, 0.28, size = 12) + 
     draw_label(TeX(glue("$R^2$ = {format(round(r2, 2), nsmall = 2)}, $$\\mathit{{p}}$ < 0.001")), 
                0.67, 0.22, size = 12)
@@ -126,7 +139,9 @@ for (i in 1:nrow(nh)) {
 outfile <- glue("figs/sensitivity_analyses/sa_epi_end.pdf")
 pdf(outfile, width = 9, height = 12)
 p <- plot_grid(plotlist = plist, align = "hv", ncol = 3)
-title <- ggdraw() + draw_label("Epidemic end", fontface = 'bold')
+title <- ggdraw() + 
+  draw_label("流行结束时间", fontface = 'bold', fontfamily = "SimSun")
+  # draw_label("Epidemic end", fontface = 'bold')
 plot_grid(title, p, ncol = 1, rel_heights = c(0.04, 1))
 dev.off()
 
@@ -156,12 +171,15 @@ for (i in 1:nrow(nh)) {
                        breaks = seq(5, 40, by = 5)) + 
     scale_y_continuous(expand = c(0, 0), limits = c(5, 40), 
                        breaks = seq(5, 40, by = 5)) + 
-    labs(x = "MCM", y = "ETM", 
+    # labs(x = "MCM", y = "ETM", 
+    #      title = TeX(glue("$\\mathit{{m}}$ = {ni}, $\\mathit{{h}}$ = {format(hi, nsmall = 1)}"))) + 
+    labs(x = "最大曲率法", y = "经验阈值法", 
          title = TeX(glue("$\\mathit{{m}}$ = {ni}, $\\mathit{{h}}$ = {format(hi, nsmall = 1)}"))) + 
     theme_classic() +  
     theme(axis.line = element_blank(), 
           panel.border = element_rect(color = "black", size = 1, fill = NA), 
-          plot.title = element_text(hjust = 0.5, face = "bold"))
+          plot.title = element_text(hjust = 0.5, face = "bold"), 
+          axis.title = element_text(family = "SimSun"))
   p <- ggdraw(p) + draw_label(TeX(glue("$\\mathit{{y}}$ = {format(round(b0, 2), nsmall = 2)} + {format(round(b1, 2), nsmall = 2)}$\\mathit{{x}}$")), 0.65, 0.3, size = 12) + 
     draw_label(TeX(glue("$R^2$ = {format(round(r2, 2), nsmall = 2)}, $$\\mathit{{p}}$ < 0.001")), 
                0.65, 0.24, size = 12)
@@ -174,6 +192,8 @@ for (i in 1:nrow(nh)) {
 outfile <- glue("figs/sensitivity_analyses/sa_epi_duration.pdf")
 pdf(outfile, width = 9, height = 12)
 p <- plot_grid(plotlist = plist, align = "hv", ncol = 3)
-title <- ggdraw() + draw_label("Epidemic duration", fontface = 'bold')
+title <- ggdraw() + 
+  draw_label("流行持续时间", fontface = 'bold', fontfamily = "SimSun")
+  # draw_label("Epidemic duration", fontface = 'bold')
 plot_grid(title, p, ncol = 1, rel_heights = c(0.04, 1))
 dev.off()
